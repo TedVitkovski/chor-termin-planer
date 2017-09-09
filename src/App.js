@@ -12,7 +12,7 @@ class App extends Component {
       <div className="ui container" style={{ marginTop: '3em' }}>
         <Header as='h2' textAlign='center'>
             <Header.Content style={{ fontWeight: '200' }}>
-              Chor Termin Planer
+              Chor Terminplaner
             </Header.Content>
         </Header>
         <MainView currYear={currDate.getFullYear()} currMonth={currDate.getMonth()} />
