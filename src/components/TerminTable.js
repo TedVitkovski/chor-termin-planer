@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'semantic-ui-react';
 
-class Termin extends Component {
+class TerminTable extends Component {
   constructor(props) {
     super(props);
   };
@@ -32,4 +32,4 @@ class Termin extends Component {
   }
 }
 
-export default Termin;
+export default TerminTable;
