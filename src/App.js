@@ -51,14 +51,46 @@ class App extends Component {
   }
 
   addItem = () => {
-    const dates = { ...this.state.songs };
-    const id = 'September 2017'
+    const dates = { ...this.state.dates };
+    const id = this.state.currentUser.uid;
     dates[id] = {
-      "individualdates" : ["06.09.2017", "13.09.2017", "20.09.2017", "27.09.2017"],
-      "sopran" : "6",
-      "alt" : "7",
-      "tenor" : "5",
-      "bass" : "3"
+      "September 2017" : {
+        "individualdates" : {
+          "06092017" : {
+            "names" : ['julia', 'maria', 'peter', 'martin'],
+            "checked" : true,
+            "sopran" : "6",
+            "alt" : "7",
+            "tenor" : "5",
+            "bass" : "3"
+          },
+          "13092017" : {
+            "names" : ['julia', 'maria', 'peter', 'martin'],
+            "checked" : true,
+            "sopran" : "6",
+            "alt" : "7",
+            "tenor" : "5",
+            "bass" : "3"
+          },
+          "20092017" : {
+            "names" : ['julia', 'maria', 'peter', 'martin'],
+            "checked" : true,
+            "sopran" : "6",
+            "alt" : "7",
+            "tenor" : "5",
+            "bass" : "3"
+          },
+          "27092017" : {
+            "names" : ['julia', 'maria', 'peter', 'martin'],
+            "checked" : true,
+            "sopran" : "6",
+            "alt" : "7",
+            "tenor" : "5",
+            "bass" : "3"
+          }},
+
+      }
+
     };
 
     this.setState({ dates });
@@ -111,7 +143,7 @@ class App extends Component {
       <div>
           <BrowserRouter>
               <div>
-                <TopNav authenticated={authenticated} currentUser={currentUser} onClick={this.toggleView} />
+                <TopNav authenticated={authenticated} currentUser={currentUser} onClick={this.toggleView} buttonOnClick={this.addItem} />
                   <div className="ui container" style={{ marginTop: '3em' }}>
                     <Route exact path="/" render={(props) => {
                       console.log(authenticated + 'THIS SHOULD WORK!!');
