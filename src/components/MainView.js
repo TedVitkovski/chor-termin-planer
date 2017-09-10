@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
-import { Button, Container, Tab } from 'semantic-ui-react';
+import { Button, Container, Tab, Radio, Menu } from 'semantic-ui-react';
+import Toggle from 'react-toggle';
 
+import HeaderView from './Header.js';
 import TerminTable from './TerminTable.js';
+import '../styles/ToggleButton.css';
+
+
+
 
 const verticalPanes = {
   'September 2017' :
   [
-    { menuItem: '06.09.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-    { menuItem: '13.09.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-    { menuItem: '20.09.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-    { menuItem: '27.09.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
+    { menuItem: <Menu.Item> <label><span style={{marginRight: "2em"}}>06.09.2017</span><Toggle /></label> </Menu.Item>, render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
+    { menuItem: <Menu.Item> <label><span style={{marginRight: "2em"}}>13.09.2017</span><Toggle /></label> </Menu.Item>, render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
+    { menuItem: <Menu.Item> <label><span style={{marginRight: "2em"}}>20.09.2017</span><Toggle /></label></Menu.Item>, render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
+    { menuItem: <Menu.Item> <label><span style={{marginRight: "2em"}}>27.09.2017</span><Toggle /></label> </Menu.Item>, render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
   ],
   'Oktober 2017' :
   [
@@ -34,7 +40,7 @@ const verticalPanes = {
   ],
 };
 
-class MonthSwitcher extends Component {
+class MainView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -86,6 +92,23 @@ class MonthSwitcher extends Component {
   };
 
   render() {
+    const { dates } = this.props;
+    const dateIds = Object.keys(dates);
+    const individualdates = dates.individualdates;
+
+    const verticalPanes2 =  dateIds.map((id) => {
+      const date = dates[id];
+      return (
+        {id :
+        [
+          { menuItem: '06.09.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
+          { menuItem: '13.09.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
+          { menuItem: '20.09.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
+          { menuItem: '27.09.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
+        ],}
+      );
+    })
+
     return (
       <div>
         <Container textAlign='center' style={{ marginBottom: '3em', marginTop: '3em' }} >
@@ -104,4 +127,4 @@ class MonthSwitcher extends Component {
 
 }
 
-export default MonthSwitcher;
+export default MainView;
