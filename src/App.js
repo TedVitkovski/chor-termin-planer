@@ -118,7 +118,7 @@ class App extends Component {
                       if (authenticated) {
                         console.log('The authenticated has changed ' + authenticated)
                         return (
-                          <MainView dates={this.state.dates} currYear={currDate.getFullYear()} currMonth={currDate.getMonth()} />
+                          <MainView dates={this.state.dates} currentUser={currentUser} currYear={currDate.getFullYear()} currMonth={currDate.getMonth()} />
                         )
                       } else {
                         console.log('The authenticated has not changed' + this.state.authenticated)
