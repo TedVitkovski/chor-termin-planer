@@ -21,7 +21,7 @@ class TopNav extends Component {
                       </Menu.Item>
                     </Menu.Menu>
                     <Menu.Item name='terminplaner' active={ activeItem === 'terminkalender' } onClick={this.handleItemClick} />
-                    <Menu.Item name='teilnehmer' active={ activeItem === 'teilnehmer' } onClick={this.handleItemClick} />
+                    <Menu.Item name='teilnehmer' active={ activeItem === 'teilnehmer' } onClick={this.props.buttonOnClick2} />
                     <Menu.Item name='termin erstellen' active={ activeItem === 'termin erstellen' } onClick={this.props.buttonOnClick} />
 
                     <Menu.Menu position='right'>
