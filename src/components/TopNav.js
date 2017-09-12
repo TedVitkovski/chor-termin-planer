@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
 import { Button, Menu } from 'semantic-ui-react';
+import { Popover, PopoverInteractionKind, Position } from '@blueprintjs/core';
 import { Link } from 'react-router-dom';
 
 import HeaderView from './Header.js';
+import NewTerminForm from './NewTerminForm.js'
 
 class TopNav extends Component {
-  state = { activeItem: 'home' }
+
+  constructor(props) {
+    super(props)
+    this.closePopover = this.closePopover.bind(this);
+    this.state = {
+      activeItem : 'home',
+      popoverOpen: false,
+    }
+  }
+
+  closePopover() {
+    this.setState({ popoverOpen: false })
+  }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
@@ -23,7 +37,15 @@ class TopNav extends Component {
                     </Menu.Menu>
                     <Menu.Item name='terminplaner' as={ Link } to='/' active={ activeItem === 'terminkalender' } onClick={this.handleItemClick} />
                     <Menu.Item name='teilnehmer' as={ Link } to='/teilnehmer' active={ activeItem === 'teilnehmer' } onClick={this.handleItemClick} />
-                    <Menu.Item name='termin erstellen' active={ activeItem === 'termin erstellen' } onClick={this.props.buttonOnClick} />
+                    <Popover
+                      content={(<NewTerminForm addTermin={this.props.addTermin} postSubmitHandler={this.closePopover}/>)}
+                      interactionKind={PopoverInteractionKind.CLICK}
+                      isOpen={this.state.open}
+                      onInteraction={(state) => this.setState({ popoverOpen: state })}
+                      position={Position.BOTTOM}
+                    >
+                      <Menu.Item name='termin erstellen' style={{height: '65px'}} onClick={this.props.buttonOnClick} active={ activeItem === 'termin erstellen' } />
+                    </Popover>
 
                     <Menu.Menu position='right'>
                       <Menu.Item>

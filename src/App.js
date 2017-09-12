@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Loader, Dimmer, Segment, Tab, Menu, Container } from 'semantic-ui-react';
+import { Button, Loader, Dimmer, Segment, Tab, Menu, Container, Label, Popup } from 'semantic-ui-react';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
 import Toggle from 'react-toggle';
@@ -34,13 +34,35 @@ class App extends Component {
       loading: true,
       checkArr: [false, false, false, false, false, false, false, false],
       month: '',
+      sopran: 6,
+      alt: 8,
+      tenor: 5,
+      bass: 4,
+      userNames: {
+        'julianej' : 'Sopran',
+        'sabinek' : 'Sopran',
+        'gerlindel' : 'Sopran',
+        'annez' : 'Sopran',
+        'mariannes' : 'Sopran',
+        'kerstinb' : 'Alt',
+        'renatep' : 'Alt',
+        'angelikah' : 'Alt',
+        'joerdisp' : 'Alt',
+        'annelorer' : 'Alt',
+        'barbaras' : 'Alt',
+        'mariaw' : 'Alt',
+        'martina' : 'Tenor',
+        'lotharb' : 'Tenor',
+        'sebastianh' : 'Tenor',
+        'matthiasr' : 'Tenor',
+        'hadriant' : 'Bass',
+        'christofw' : 'Bass',
+        'rainerw' : 'Bass',
+        'alexanderk' : 'Bass'
+      },
       individualDates : [
                                ['06092017', '13092017', '20092017', '27092017'],
                                ['04102017', '11102017', '18102017', '25102017'],
-                               ['01112017', '08112017', '15112017', '22112017'],
-                               ['01122017', '08122017', '15122017', '22122017'],
-                               ['01012017', '08012017', '15012017', '22012017'],
-                               ['01022017', '08022017', '15022017', '22022017'],
                         ],
 
     }
@@ -103,6 +125,10 @@ class App extends Component {
     })
   }
 
+  userVoiceToDecrement = (userVoice) => {
+
+  }
+
   onChangeToggle = (e) => {
 
     const name = this.state.currentUser.email.slice(0, -8);
@@ -110,6 +136,9 @@ class App extends Component {
     const dates = { ...this.state.dates };
     const useras = { ...this.state.useras };
     const { month } = this.state;
+    const userVoice = this.state.userNames[name];
+
+
 
     console.log(id);
     let dateId = id.slice(2, 3);
@@ -124,28 +153,65 @@ class App extends Component {
     }
 
     const date = dateObjKeys[dateId];
-    console.log(checkArrId);
+
+    let currSopran = dates[month].individualdates[date].sopran
+    let currAlt = dates[month].individualdates[date].alt
+    let currTenor = dates[month].individualdates[date].tenor
+    let currBass = dates[month].individualdates[date].bass
+    console.log(currSopran + ' Der SOPRANO!!');
+
 
     if (e.target.checked) {
       const i = dates[month].individualdates[date].names.indexOf(name);
       if (i != -1) {
         dates[month].individualdates[date].names.splice(i, 1);
+        switch(userVoice) {
+          case 'Sopran' :
+            dates[month].individualdates[date].sopran = ++currSopran;
+            break;
+          case 'Alt' :
+            dates[month].individualdates[date].alt = ++currAlt;
+            console.log(dates[month].individualdates[date].alt + '??????????????????????????????');
+            break;
+          case 'Tenor' :
+            dates[month].individualdates[date].tenor = ++currTenor;
+            break;
+          case 'Bass' :
+            dates[month].individualdates[date].bass = ++currBass;
+            break;
+        }
         this.state.useras[this.state.currentUser.uid].clickArr[checkArrId] = true;
       }
     } else {
       dates[month].individualdates[date].names.push(name);
-      console.log(this.state.useras[this.state.currentUser.uid].clickArr);
+      console.log('WHY THE HELL!!!! --------- !!!!!!' + userVoice);
+      switch(userVoice) {
+        case 'Sopran' :
+          dates[month].individualdates[date].sopran = --currSopran;
+          break;
+        case 'Alt' :
+          dates[month].individualdates[date].alt = --currAlt;
+          break;
+        case 'Tenor' :
+          console.log('Hilfe!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+          dates[month].individualdates[date].tenor = --currTenor;
+          break;
+        case 'Bass' :
+          dates[month].individualdates[date].bass = --currBass;
+          break;
+      }
+
       this.state.useras[this.state.currentUser.uid].clickArr[checkArrId] = false;
     }
     this.setState({ dates });
     this.setState({ useras });
-    console.log(dates[month].individualdates[date].names);
+
   }
 
 
   addItem = () => {
     const dates = { ...this.state.dates };
-    const months = ['September 2017', 'Oktober 2017', 'November 2017', 'Dezember 2017', 'Januar 2017', 'Februar 2017'];
+    const months = ['September 2017', 'Oktober 2017'];
 
     for (let i = 0; i < months.length; i++) {
       dates[months[i]] = {
@@ -161,16 +227,18 @@ class App extends Component {
       for (let j = 0; j < individualMonthDates.length; j++){
         dates[month].individualdates[individualMonthDates[j]] = {
           names: ['Fedor'],
-          sopran: '5',
-          alt: '3',
-          tenor: '6',
-          bass: '4'
+          sopran: '6',
+          alt: '8',
+          tenor: '5',
+          bass: '5'
         }
       }
     }
 
     this.setState({ dates });
   }
+
+
 
   addUser = () => {
     const useras = { ...this.state.useras };
@@ -230,6 +298,13 @@ class App extends Component {
     }
   }
 
+  incrementBass = () => {
+    const temp = this.state.bass;
+    this.setState({
+      bass: temp + 1,
+    })
+  }
+
   renderVerticalPanes = () => {
     console.log(Date.now())
     console.log(this.state.currentUser.uid + ' Why is the user not initialized?')
@@ -243,40 +318,78 @@ class App extends Component {
     return {
         'September 2017' :
         [
-          { menuItem: <Menu.Item> <span style={{marginRight: "2em"}}>06.09.2017</span><label><Toggle id='0900' key={0} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[0]}
-          onChange={this.onChangeToggle} /></label> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['September 2017'].individualdates['06092017'].names} sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: <Menu.Item> <span style={{marginRight: "2em"}}>13.09.2017</span><label><Toggle id='0911' key={1} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[1]}
-          onChange={this.onChangeToggle} /></label> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['September 2017'].individualdates['13092017'].names} sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: <Menu.Item> <span style={{marginRight: "2em"}}>20.09.2017</span><label><Toggle id='0922' key={2} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[2]}
-          onChange={this.onChangeToggle} /></label></Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['September 2017'].individualdates['20092017'].names} sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: <Menu.Item> <span style={{marginRight: "2em"}}>27.09.2017</span><label><Toggle id='0933' key={3} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[3]}
-          onChange={this.onChangeToggle} /></label> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['September 2017'].individualdates['27092017'].names} sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
+          { menuItem:
+          <Menu.Item> <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}> <span style={{marginRight: "2em"}}>06.09.2017</span>
+            <label><Toggle id='0900' key={0} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[0]}
+            onChange={this.onChangeToggle} />
+            </label>
+
+          </div>
+
+          </Menu.Item>,
+          render: () => <Tab.Pane> <TerminTable
+          names={this.state.dates['September 2017'].individualdates['06092017'].names}
+          sopran={this.state.dates['September 2017'].individualdates['06092017'].sopran}
+          alt={this.state.dates['September 2017'].individualdates['06092017'].alt}
+          tenor={this.state.dates['September 2017'].individualdates['06092017'].tenor}
+          bass={this.state.dates['September 2017'].individualdates['06092017'].bass} /> </Tab.Pane> },
+
+          { menuItem: <Menu.Item> <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}><span style={{marginRight: "2em"}}>13.09.2017</span><label><Toggle id='0911' key={1} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[1]}
+          onChange={this.onChangeToggle} /></label></div> </Menu.Item>,
+          render: () => <Tab.Pane> <TerminTable
+          names={this.state.dates['September 2017'].individualdates['13092017'].names}
+          sopran={this.state.dates['September 2017'].individualdates['13092017'].sopran}
+          alt={this.state.dates['September 2017'].individualdates['13092017'].alt}
+          tenor={this.state.dates['September 2017'].individualdates['13092017'].tenor}
+          bass={this.state.dates['September 2017'].individualdates['13092017'].bass} /> </Tab.Pane> },
+
+          { menuItem: <Menu.Item> <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}><span style={{marginRight: "2em"}}>20.09.2017</span><label><Toggle id='0922' key={2} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[2]}
+          onChange={this.onChangeToggle} /></label></div></Menu.Item>,
+          render: () => <Tab.Pane> <TerminTable
+          names={this.state.dates['September 2017'].individualdates['20092017'].names}
+          sopran={this.state.dates['September 2017'].individualdates['20092017'].sopran}
+          alt={this.state.dates['September 2017'].individualdates['20092017'].alt}
+          tenor={this.state.dates['September 2017'].individualdates['20092017'].tenor}
+          bass={this.state.dates['September 2017'].individualdates['20092017'].bass} /> </Tab.Pane> },
+
+          { menuItem: <Menu.Item><div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}><span style={{marginRight: "2em"}}>27.09.2017</span><label><Toggle id='0933' key={3} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[3]}
+          onChange={this.onChangeToggle} /></label></div> </Menu.Item>,
+          render: () => <Tab.Pane> <TerminTable
+          names={this.state.dates['September 2017'].individualdates['27092017'].names}
+          sopran={this.state.dates['September 2017'].individualdates['27092017'].sopran}
+          alt={this.state.dates['September 2017'].individualdates['27092017'].alt}
+          tenor={this.state.dates['September 2017'].individualdates['27092017'].tenor}
+          bass={this.state.dates['September 2017'].individualdates['27092017'].bass} /> </Tab.Pane> },
+
         ],
         'Oktober 2017' :
         [
-          { menuItem: <Menu.Item> <span style={{marginRight: "2em"}}>04.10.2017</span><label><Toggle id='1004' key={4} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[4]}
-          onChange={this.onChangeToggle} /></label> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['04102017'].names} sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: <Menu.Item> <span style={{marginRight: "2em"}}>11.10.2017</span><label><Toggle id='1015' key={5} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[5]}
-          onChange={this.onChangeToggle} /></label> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['11102017'].names} sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: <Menu.Item> <span style={{marginRight: "2em"}}>18.10.2017</span><label><Toggle id='1026' key={6} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[6]}
-          onChange={this.onChangeToggle} /></label></Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['18102017'].names} sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: <Menu.Item> <span style={{marginRight: "2em"}}>25.10.2017</span><label><Toggle id='1037' key={7} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[7]}
-          onChange={this.onChangeToggle} /></label> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['25102017'].names} sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-        ],
+          { menuItem: <Menu.Item><div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}> <span style={{marginRight: "2em"}}>04.10.2017</span><label><Toggle id='1004' key={4} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[4]}
+          onChange={this.onChangeToggle} /></label></div> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['04102017'].names}
+          sopran={this.state.dates['Oktober 2017'].individualdates['04102017'].sopran}
+          alt={this.state.dates['Oktober 2017'].individualdates['04102017'].alt}
+          tenor={this.state.dates['Oktober 2017'].individualdates['04102017'].tenor}
+          bass={this.state.dates['Oktober 2017'].individualdates['04102017'].bass}/> </Tab.Pane> },
 
-        'November 2017' :
-        [
-          { menuItem: '01.11.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: '08.11.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: '20.11.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: '27.11.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-        ],
-        'Dezember 2017' :
-        [
-          { menuItem: '06.12.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: '13.12.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: '20.12.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
-          { menuItem: '27.12.2017', render: () => <Tab.Pane> <TerminTable sopran='6' alt='7' tenor='5' bass='3'/> </Tab.Pane> },
+          { menuItem: <Menu.Item><div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}> <span style={{marginRight: "2em"}}>11.10.2017</span><label><Toggle id='1015' key={5} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[5]}
+          onChange={this.onChangeToggle} /></label></div> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['11102017'].names}
+          sopran={this.state.dates['Oktober 2017'].individualdates['11102017'].sopran}
+          alt={this.state.dates['Oktober 2017'].individualdates['11102017'].alt}
+          tenor={this.state.dates['Oktober 2017'].individualdates['11102017'].tenor}
+          bass={this.state.dates['Oktober 2017'].individualdates['11102017'].bass}/> </Tab.Pane> },
+
+          { menuItem: <Menu.Item><div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}> <span style={{marginRight: "2em"}}>18.10.2017</span><label><Toggle id='1026' key={6} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[6]}
+          onChange={this.onChangeToggle} /></label></div></Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['18102017'].names}
+          sopran={this.state.dates['Oktober 2017'].individualdates['18102017'].sopran}
+          alt={this.state.dates['Oktober 2017'].individualdates['18102017'].alt}
+          tenor={this.state.dates['Oktober 2017'].individualdates['18102017'].tenor}
+          bass={this.state.dates['Oktober 2017'].individualdates['18102017'].bass}/> </Tab.Pane> },
+
+          { menuItem: <Menu.Item><div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}> <span style={{marginRight: "2em"}}>25.10.2017</span><label><Toggle id='1037' key={7} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[7]}
+          onChange={this.onChangeToggle} /></label></div> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['25102017'].names} sopran={this.state.dates['Oktober 2017'].individualdates['25102017'].sopran}
+          alt={this.state.dates['Oktober 2017'].individualdates['25102017'].alt}
+          tenor={this.state.dates['Oktober 2017'].individualdates['25102017'].tenor}
+          bass={this.state.dates['Oktober 2017'].individualdates['25102017'].bass}/> </Tab.Pane> },
         ],
       }
   }
@@ -300,7 +413,7 @@ class App extends Component {
       <div>
           <BrowserRouter>
               <div>
-                <TopNav authenticated={authenticated} currentUser={currentUser} onClick={this.toggleView} buttonOnClick={this.addUser}  />
+                <TopNav authenticated={authenticated} currentUser={currentUser} onClick={this.toggleView} addTermin={this.addTermin} buttonOnClick={this.addUser}  />
                   <div className="ui container" style={{ marginTop: '3em' }}>
                     <Route exact path="/" render={(props) => {
                       console.log(authenticated + 'THIS SHOULD WORK!!');
@@ -312,6 +425,7 @@ class App extends Component {
                             currMonth = {currDate.getMonth()}
                             currYear = {currDate.getFullYear()}
                             callbackFromParent = {this.myCallback}
+                            onClick = {this.incrementBass}
                           />
                         )
                       } else {
@@ -321,7 +435,17 @@ class App extends Component {
                         );
                       }
                     }} />
-                    <Route path = "/teilnehmer" component={Teilnehmer} />
+                    <Route path = "/teilnehmer" render={(props) => {
+                      if (authenticated) {
+                        return (
+                          <Teilnehmer />
+                        )
+                      } else {
+                        return (
+                          <Redirect to='/login' />
+                        )
+                      }
+                    }}/>
                     <Route path = "/help" component={Help} />
                     <Route path = "/login" render={(props) => {
                       return <Login setCurrentUser={this.setCurrentUser} {...props} />

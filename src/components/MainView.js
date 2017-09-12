@@ -76,7 +76,7 @@ class MainView extends Component {
         <Container textAlign='center' style={{ marginBottom: '3em', marginTop: '3em' }} >
           <Button.Group basic>
             <Button labelPosition='left' icon='left chevron' content='Letzter Monat' onClick={this.prevMonth} />
-            <Button style={{ fontSize: '23px', fontWeight: '900', cursor: 'auto', minWidth: '250px' }}
+            <Button onClick={this.props.onClick} style={{ fontSize: '23px', fontWeight: '900', cursor: 'auto', minWidth: '250px' }}
             content={`${this.monthToString(this.state.currMonth)} ${this.state.currYear}`} />
             <Button labelPosition='right' icon='right chevron' content='Nächster Monat' onClick={this.nextMonth} />
           </Button.Group>

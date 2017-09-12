@@ -23,53 +23,45 @@ class TerminTable extends Component {
         'martina' : 'Tenor',
         'lotharb' : 'Tenor',
         'sebastianh' : 'Tenor',
+        'matthiasr' : 'Tenor',
         'hadriant' : 'Bass',
         'christofw' : 'Bass',
         'rainerw' : 'Bass',
         'alexanderk' : 'Bass'
-      },
-      sopran: 6,
-      alt: 8,
-      tenor: 5,
-      bass: 4
+      }
     }
   };
-
-  componentDidMount() {
-    for (let i = 0; i < this.props.names.length; i++) {
-      let userName = this.props.names[i];
-      let userVoice = this.state.userNames[userName];
-      this.adjustNumbers(userVoice);
-    }
-
-  }
 
   userVoiceToColumns = (userVoice, counter) => {
     switch(userVoice) {
       case 'Sopran' :
         return (
-
           <Table.Row>
             <Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
           </Table.Row>
         );
       case 'Alt' :
         return (
-
             <Table.Row>
-            <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell> <Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
+              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
+              <Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
             </Table.Row>
           );
       case 'Tenor' :
         return (
             <Table.Row>
-            <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell> <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell> <Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
+              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
+              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
+              <Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
             </Table.Row>
           );
       case 'Bass' :
         return (
             <Table.Row>
-            <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell> <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell> <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell><Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
+              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
+              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
+              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
+              <Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
             </Table.Row>
           );
     }
@@ -79,37 +71,6 @@ class TerminTable extends Component {
     return name.charAt(0).toUpperCase() + name.slice(1);
   }
 
-  adjustNumbers(userVoice) {
-    if (userVoice === 'Sopran') {
-      const temp = this.state.sopran - 1;
-      console.log('I am Sopran' + userVoice)
-      this.setState({
-        sopran: temp
-      })
-      return;
-    } else if (userVoice === 'Alt') {
-      const temp1 = this.state.alt - 1;
-      console.log('I am Alt' + userVoice);
-      this.setState({
-        alt: temp1
-      })
-      return;
-    } else if (userVoice === 'Tenor') {
-      const temp2 = this.state.tenor - 1;
-      console.log('I am Tenor' + userVoice);
-      this.setState({
-        tenor: temp2
-      })
-      return;
-    } else if (userVoice === 'Bass') {
-      const temp3 = this.state.bass - 1;
-      console.log('I am Bass' + userVoice);
-      this.setState({
-        bass: temp3
-      })
-      return;
-    }
-  }
 
 
   render() {
@@ -138,10 +99,10 @@ class TerminTable extends Component {
         </Table.Body>
         <Table.Footer>
           <Table.Row>
-            <Table.HeaderCell>{this.state.sopran}</Table.HeaderCell>
-            <Table.HeaderCell>{this.state.alt}</Table.HeaderCell>
-            <Table.HeaderCell>{this.state.tenor}</Table.HeaderCell>
-            <Table.HeaderCell>{this.state.bass}</Table.HeaderCell>
+            <Table.HeaderCell style={{fontWeight: '700'}}>{this.props.sopran}</Table.HeaderCell>
+            <Table.HeaderCell style={{fontWeight: '700'}}>{this.props.alt}</Table.HeaderCell>
+            <Table.HeaderCell style={{fontWeight: '700'}}>{this.props.tenor}</Table.HeaderCell>
+            <Table.HeaderCell style={{fontWeight: '700'}}>{this.props.bass}</Table.HeaderCell>
           </Table.Row>
         </Table.Footer>
       </Table>
