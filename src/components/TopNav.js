@@ -8,6 +8,7 @@ class TopNav extends Component {
   state = { activeItem: 'home' }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
   render() {
     const { activeItem } = this.state;
     return (
@@ -20,15 +21,15 @@ class TopNav extends Component {
                         <HeaderView />
                       </Menu.Item>
                     </Menu.Menu>
-                    <Menu.Item name='terminplaner' active={ activeItem === 'terminkalender' } onClick={this.handleItemClick} />
-                    <Menu.Item name='teilnehmer' active={ activeItem === 'teilnehmer' } onClick={this.props.buttonOnClick2} />
+                    <Menu.Item name='terminplaner' as={ Link } to='/' active={ activeItem === 'terminkalender' } onClick={this.handleItemClick} />
+                    <Menu.Item name='teilnehmer' as={ Link } to='/teilnehmer' active={ activeItem === 'teilnehmer' } onClick={this.handleItemClick} />
                     <Menu.Item name='termin erstellen' active={ activeItem === 'termin erstellen' } onClick={this.props.buttonOnClick} />
 
                     <Menu.Menu position='right'>
                       <Menu.Item>
                         <p>Eingeloggt als: <span style={{fontWeight: '700'}}>{this.props.currentUser.email.slice(0, -8)}</span></p>
                       </Menu.Item>
-                      <Menu.Item name='hilfe' active={ activeItem === 'hilfe' } onClick={this.handleItemClick} />
+                      <Menu.Item name='hilfe' as={ Link } to='/help' active={ activeItem === 'hilfe' } onClick={this.handleItemClick} />
 
                       <Menu.Item>
                         <Link to='/logout'>
