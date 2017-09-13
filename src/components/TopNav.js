@@ -16,8 +16,6 @@ class TopNav extends Component {
     }
   }
 
-
-
   closePopover() {
     this.setState({ popoverOpen: false })
   }
@@ -45,10 +43,12 @@ class TopNav extends Component {
                       trigger={<Menu.Item className='terminErstellen' name='termin erstellen' style={{height: '65px'}} active={ activeItem === 'termin erstellen' } />}
                       flowing
                       hideOnScroll={false}
+                      open={this.state.popoverOpen}
+                      onOpen={(state) => this.setState({ popoverOpen: state })}
                       on='click'
                       position='bottom center'
                     >
-                      <NewTerminForm />
+                      <NewTerminForm addTermin={this.props.addTermin} postSubmitHandler={this.closePopover} />
                     </Popup>
 
                     <Menu.Menu position='right'>

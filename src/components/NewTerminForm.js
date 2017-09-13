@@ -15,7 +15,7 @@ class NewTerminForm extends Component {
     super(props);
     this.createTermin = this.createTermin.bind(this);
     this.state = {
-      startDate: new Date()
+      date: ''
     }
   }
 
@@ -23,6 +23,7 @@ class NewTerminForm extends Component {
     event.preventDefault();
 
     console.log('This was hit');
+    this.props.addTermin(this.state.date);
 
     this.terminForm.reset();
     this.props.postSubmitHandler();
@@ -30,15 +31,27 @@ class NewTerminForm extends Component {
 
   render() {
     return(
-      <Form style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      <form
+        onSubmit={(event => this.createTermin(event))}
+        ref={(form) => this.terminForm = form}
+        style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+      >
         <TextField
           id="date"
+          ref={(input) => { this.dateInput = input }}
           label="Datum"
           type="date"
           style={{maxWidth: '150px'}}
+          value={this.state.date}
+          onChange={event => this.setState({ date: event.target.value })}
         />
-        <Form.Button style={{marginLeft: '1em'}}>Erstellen</Form.Button>
-      </Form>
+        <Form.Button
+          type='submit'
+          style={{marginLeft: '1em'}}
+        >
+          Erstellen
+        </Form.Button>
+      </form>
     )
   }
 

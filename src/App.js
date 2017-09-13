@@ -15,7 +15,9 @@ import './styles/App.css';
 
 import { app, base } from './base';
 
+
 const currDate = new Date();
+
 
 class App extends Component {
 
@@ -24,7 +26,6 @@ class App extends Component {
 
     this.itemsRef = app.database().ref();
     this.setCurrentUser = this.setCurrentUser.bind(this);
-    this.renderVerticalPanes = this.renderVerticalPanes.bind(this);
 
     this.state = {
       dates: { },
@@ -54,11 +55,7 @@ class App extends Component {
         'christofw' : 'Bass',
         'rainerw' : 'Bass',
         'alexanderk' : 'Bass'
-      },
-      individualDates : [
-                               ['06092017', '13092017', '20092017', '27092017'],
-                               ['04102017', '11102017', '18102017', '25102017'],
-                        ],
+      }
 
     }
   }
@@ -182,6 +179,74 @@ class App extends Component {
 
   }
 
+  mainRenderer = () => {
+    const dates = { ...this.state.dates }
+    const months = Object.keys(dates);
+    let counter = 0;
+
+    let verticalPanesObj = {};
+    let verticalPanesArr = [];
+
+    for (let i = 0; i < months.length; i++) {
+      const individualDates = Object.keys(dates[months[i]].individualdates);
+      for (let j = 0; j < individualDates.length; j++) {
+        console.log(individualDates[j]);
+        const tempDate = individualDates[j];
+        const tempMonthFirstStep = tempDate.slice(0, -4);
+        const tempMonth = tempMonthFirstStep.slice(2, 4);
+        const tempYear = tempDate.slice(4);
+
+        const tempId = tempMonth.toString() + j.toString() + counter.toString();
+        if (j !== individualDates.length - 1) {
+          verticalPanesArr.push(this.renderVerticalPane(tempDate, tempMonth, tempYear, tempId));
+        } else {
+          verticalPanesArr.unshift(this.renderVerticalPane(tempDate, tempMonth, tempYear, tempId));
+          verticalPanesObj[months[i]] = verticalPanesArr;
+          verticalPanesArr = [];
+        }
+
+        if (j === individualDates.length - 1) {
+
+        }
+        console.log(this.monthToString(tempMonth - 1));
+        console.log(dates[`${this.monthToString(tempMonth - 1)} ${tempYear}`].individualdates[tempDate].names);
+
+        console.log(verticalPanesObj);
+        counter++;
+      }
+    }
+    return verticalPanesObj;
+  }
+
+  renderVerticalPane = (currDate, currMonth, currYear, currId) => {
+    return {
+      menuItem:
+        <Menu.Item>
+          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <span style={{marginRight: '2em'}}>{currDate}</span>
+            <label>
+              <Toggle
+                id={currId}
+                key={currId.slice(0, -1)}
+                defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[0]}
+                onChange={this.onChangeToggle}
+              />
+            </label>
+          </div>
+        </Menu.Item>,
+      render:
+        () => <Tab.Pane>
+        <TerminTable
+        names={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[`${currDate}`].names}
+        sopran={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[`${currDate}`].sopran}
+        alt={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[`${currDate}`].alt}
+        tenor={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[`${currDate}`].tenor}
+        bass={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[`${currDate}`].bass}
+        /></Tab.Pane>
+
+    }
+  }
+
 
   addItem = () => {
     const dates = { ...this.state.dates };
@@ -210,6 +275,10 @@ class App extends Component {
     }
 
     this.setState({ dates });
+  }
+
+  addTermin = (date) => {
+    console.log(date + 'YES!!');
   }
 
 
@@ -270,91 +339,26 @@ class App extends Component {
     }
   }
 
-  renderVerticalPanes = () => {
+  /* This helper function turn a month into a string */
+  monthToString = (month) => {
+    console.log('HELP ME!' + this.props.verticalPanes);
+    const monthNames = [
+      'Januar',
+      'Februar',
+      'März',
+      'April',
+      'Mai',
+      'Juni',
+      'Juli',
+      'August',
+      'September',
+      'Oktober',
+      'November',
+      'Dezember',
+    ];
+    return monthNames[month];
+  };
 
-    const userId = this.state.currentUser.uid;
-
-    const x = JSON.parse(JSON.stringify(this.state));
-    console.log(x);
-
-    return {
-        'September 2017' :
-        [
-          { menuItem:
-          <Menu.Item> <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}> <span style={{marginRight: "2em"}}>06.09.2017</span>
-            <label><Toggle id='0900' key={0} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[0]}
-            onChange={this.onChangeToggle} />
-            </label>
-
-          </div>
-
-          </Menu.Item>,
-          render: () => <Tab.Pane> <TerminTable
-          names={this.state.dates['September 2017'].individualdates['06092017'].names}
-          sopran={this.state.dates['September 2017'].individualdates['06092017'].sopran}
-          alt={this.state.dates['September 2017'].individualdates['06092017'].alt}
-          tenor={this.state.dates['September 2017'].individualdates['06092017'].tenor}
-          bass={this.state.dates['September 2017'].individualdates['06092017'].bass} /> </Tab.Pane> },
-
-          { menuItem: <Menu.Item> <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}><span style={{marginRight: "2em"}}>13.09.2017</span><label><Toggle id='0911' key={1} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[1]}
-          onChange={this.onChangeToggle} /></label></div> </Menu.Item>,
-          render: () => <Tab.Pane> <TerminTable
-          names={this.state.dates['September 2017'].individualdates['13092017'].names}
-          sopran={this.state.dates['September 2017'].individualdates['13092017'].sopran}
-          alt={this.state.dates['September 2017'].individualdates['13092017'].alt}
-          tenor={this.state.dates['September 2017'].individualdates['13092017'].tenor}
-          bass={this.state.dates['September 2017'].individualdates['13092017'].bass} /> </Tab.Pane> },
-
-          { menuItem: <Menu.Item> <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}><span style={{marginRight: "2em"}}>20.09.2017</span><label><Toggle id='0922' key={2} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[2]}
-          onChange={this.onChangeToggle} /></label></div></Menu.Item>,
-          render: () => <Tab.Pane> <TerminTable
-          names={this.state.dates['September 2017'].individualdates['20092017'].names}
-          sopran={this.state.dates['September 2017'].individualdates['20092017'].sopran}
-          alt={this.state.dates['September 2017'].individualdates['20092017'].alt}
-          tenor={this.state.dates['September 2017'].individualdates['20092017'].tenor}
-          bass={this.state.dates['September 2017'].individualdates['20092017'].bass} /> </Tab.Pane> },
-
-          { menuItem: <Menu.Item><div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}><span style={{marginRight: "2em"}}>27.09.2017</span><label><Toggle id='0933' key={3} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[3]}
-          onChange={this.onChangeToggle} /></label></div> </Menu.Item>,
-          render: () => <Tab.Pane> <TerminTable
-          names={this.state.dates['September 2017'].individualdates['27092017'].names}
-          sopran={this.state.dates['September 2017'].individualdates['27092017'].sopran}
-          alt={this.state.dates['September 2017'].individualdates['27092017'].alt}
-          tenor={this.state.dates['September 2017'].individualdates['27092017'].tenor}
-          bass={this.state.dates['September 2017'].individualdates['27092017'].bass} /> </Tab.Pane> },
-
-        ],
-        'Oktober 2017' :
-        [
-          { menuItem: <Menu.Item><div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}> <span style={{marginRight: "2em"}}>04.10.2017</span><label><Toggle id='1004' key={4} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[4]}
-          onChange={this.onChangeToggle} /></label></div> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['04102017'].names}
-          sopran={this.state.dates['Oktober 2017'].individualdates['04102017'].sopran}
-          alt={this.state.dates['Oktober 2017'].individualdates['04102017'].alt}
-          tenor={this.state.dates['Oktober 2017'].individualdates['04102017'].tenor}
-          bass={this.state.dates['Oktober 2017'].individualdates['04102017'].bass}/> </Tab.Pane> },
-
-          { menuItem: <Menu.Item><div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}> <span style={{marginRight: "2em"}}>11.10.2017</span><label><Toggle id='1015' key={5} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[5]}
-          onChange={this.onChangeToggle} /></label></div> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['11102017'].names}
-          sopran={this.state.dates['Oktober 2017'].individualdates['11102017'].sopran}
-          alt={this.state.dates['Oktober 2017'].individualdates['11102017'].alt}
-          tenor={this.state.dates['Oktober 2017'].individualdates['11102017'].tenor}
-          bass={this.state.dates['Oktober 2017'].individualdates['11102017'].bass}/> </Tab.Pane> },
-
-          { menuItem: <Menu.Item><div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}> <span style={{marginRight: "2em"}}>18.10.2017</span><label><Toggle id='1026' key={6} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[6]}
-          onChange={this.onChangeToggle} /></label></div></Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['18102017'].names}
-          sopran={this.state.dates['Oktober 2017'].individualdates['18102017'].sopran}
-          alt={this.state.dates['Oktober 2017'].individualdates['18102017'].alt}
-          tenor={this.state.dates['Oktober 2017'].individualdates['18102017'].tenor}
-          bass={this.state.dates['Oktober 2017'].individualdates['18102017'].bass}/> </Tab.Pane> },
-
-          { menuItem: <Menu.Item><div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}> <span style={{marginRight: "2em"}}>25.10.2017</span><label><Toggle id='1037' key={7} defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[7]}
-          onChange={this.onChangeToggle} /></label></div> </Menu.Item>, render: () => <Tab.Pane> <TerminTable names={this.state.dates['Oktober 2017'].individualdates['25102017'].names} sopran={this.state.dates['Oktober 2017'].individualdates['25102017'].sopran}
-          alt={this.state.dates['Oktober 2017'].individualdates['25102017'].alt}
-          tenor={this.state.dates['Oktober 2017'].individualdates['25102017'].tenor}
-          bass={this.state.dates['Oktober 2017'].individualdates['25102017'].bass}/> </Tab.Pane> },
-        ],
-      }
-  }
 
   render() {
 
@@ -383,7 +387,7 @@ class App extends Component {
                         console.log('The authenticated has changed ' + authenticated)
                         return (
                           <MainView
-                            verticalPanes = {this.renderVerticalPanes()}
+                            verticalPanes = {this.mainRenderer()}
                             currMonth = {currDate.getMonth()}
                             currYear = {currDate.getFullYear()}
                             callbackFromParent = {this.myCallback}
