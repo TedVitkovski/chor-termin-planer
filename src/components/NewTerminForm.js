@@ -15,7 +15,7 @@ class NewTerminForm extends Component {
     super(props);
     this.createTermin = this.createTermin.bind(this);
     this.state = {
-      startDate: moment()
+      startDate: new Date()
     }
   }
 
@@ -33,10 +33,9 @@ class NewTerminForm extends Component {
       <Form style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
         <TextField
           id="date"
-          label="Birthday"
+          label="Datum"
           type="date"
-          defaultValue="2017-05-24"
-          style={{margin: '0.5em', maxWidth: '150px'}}
+          style={{maxWidth: '150px'}}
         />
         <Form.Button style={{marginLeft: '1em'}}>Erstellen</Form.Button>
       </Form>
