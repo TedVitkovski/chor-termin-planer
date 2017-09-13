@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Menu, Popup } from 'semantic-ui-react';
-import { Popover, PopoverInteractionKind, Position } from '@blueprintjs/core';
 import { Link } from 'react-router-dom';
-import { Drop } from 'tether-drop';
 
 import HeaderView from './Header.js';
 import NewTerminForm from './NewTerminForm.js'
