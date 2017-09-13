@@ -46,7 +46,7 @@ class TopNav extends Component {
                     <Popup
                       trigger={<Menu.Item className='terminErstellen' name='termin erstellen' style={{height: '65px'}} active={ activeItem === 'termin erstellen' } />}
                       flowing
-                      hoverable
+                      hideOnScroll={false}
                       on='click'
                       position='bottom center'
                     >

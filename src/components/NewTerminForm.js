@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
 
-import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
+import { withStyles } from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
 
 const newSongStyles = {
   padding: '10px'
@@ -31,10 +31,12 @@ class NewTerminForm extends Component {
   render() {
     return(
       <Form style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <DatePicker
-            dateFormat='DD/MM/YYYY'
-            selected={this.state.startDate}
-            onChange={this.handleChange.bind(this)}
+        <TextField
+          id="date"
+          label="Birthday"
+          type="date"
+          defaultValue="2017-05-24"
+          style={{margin: '0.5em', maxWidth: '150px'}}
         />
         <Form.Button style={{marginLeft: '1em'}}>Erstellen</Form.Button>
       </Form>
