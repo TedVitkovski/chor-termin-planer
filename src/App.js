@@ -195,12 +195,17 @@ class App extends Component {
         const tempMonthFirstStep = tempDate.slice(0, -4);
         const tempMonth = tempMonthFirstStep.slice(2, 4);
         const tempYear = tempDate.slice(4);
+        const dd = tempDate.slice(0, 2)
+
+        const stringDate = dd.toString() + '.' + tempMonth.toString() + '.' + tempYear.toString()
+
+
 
         const tempId = tempMonth.toString() + j.toString() + counter.toString();
         if (j !== individualDates.length - 1) {
-          verticalPanesArr.push(this.renderVerticalPane(tempDate, tempMonth, tempYear, tempId));
+          verticalPanesArr.push(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId));
         } else {
-          verticalPanesArr.unshift(this.renderVerticalPane(tempDate, tempMonth, tempYear, tempId));
+          verticalPanesArr.unshift(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId));
           verticalPanesObj[months[i]] = verticalPanesArr;
           verticalPanesArr = [];
         }
@@ -218,12 +223,12 @@ class App extends Component {
     return verticalPanesObj;
   }
 
-  renderVerticalPane = (currDate, currMonth, currYear, currId) => {
+  renderVerticalPane = (currDate, currDateString, currMonth, currYear, currId) => {
     return {
       menuItem:
         <Menu.Item>
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <span style={{marginRight: '2em'}}>{currDate}</span>
+            <span style={{marginRight: '2em'}}>{currDateString}</span>
             <label>
               <Toggle
                 id={currId}
