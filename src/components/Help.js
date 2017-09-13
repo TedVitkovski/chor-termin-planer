@@ -9,7 +9,6 @@ class Help extends Component {
       startDate: moment()
     };
   }
-  
   render() {
     return (
       <div style={{marginTop: '5em'}}>

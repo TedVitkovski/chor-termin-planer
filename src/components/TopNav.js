@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Menu } from 'semantic-ui-react';
+import { Button, Menu, Popup } from 'semantic-ui-react';
 import { Popover, PopoverInteractionKind, Position } from '@blueprintjs/core';
 import { Link } from 'react-router-dom';
+import { Drop } from 'tether-drop';
 
 import HeaderView from './Header.js';
 import NewTerminForm from './NewTerminForm.js'
@@ -17,6 +18,8 @@ class TopNav extends Component {
     }
   }
 
+
+
   closePopover() {
     this.setState({ popoverOpen: false })
   }
@@ -25,6 +28,7 @@ class TopNav extends Component {
 
 
   render() {
+
     const { activeItem } = this.state;
     return (
         <div style={{marginBottom: '4em'}}>
@@ -38,15 +42,16 @@ class TopNav extends Component {
                     </Menu.Menu>
                     <Menu.Item name='terminplaner' as={ Link } to='/' active={ activeItem === 'terminkalender' } onClick={this.handleItemClick} />
                     <Menu.Item name='teilnehmer' as={ Link } to='/teilnehmer' active={ activeItem === 'teilnehmer' } onClick={this.handleItemClick} />
-                    <Popover
-                      content={(<NewTerminForm addTermin={this.props.addTermin} postSubmitHandler={this.closePopover}/>)}
-                      interactionKind={PopoverInteractionKind.CLICK}
-                      isOpen={this.state.open}
-                      onInteraction={(state) => this.setState({ popoverOpen: state })}
-                      position={Position.BOTTOM}
+
+                    <Popup
+                      trigger={<Menu.Item className='terminErstellen' name='termin erstellen' style={{height: '65px'}} active={ activeItem === 'termin erstellen' } />}
+                      flowing
+                      hoverable
+                      on='click'
+                      position='bottom center'
                     >
-                      <Menu.Item name='termin erstellen' style={{height: '65px'}} onClick={this.handleItemClick} active={ activeItem === 'termin erstellen' } />
-                    </Popover>
+                      <NewTerminForm />
+                    </Popup>
 
                     <Menu.Menu position='right'>
                       <Menu.Item>
