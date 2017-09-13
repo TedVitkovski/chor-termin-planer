@@ -110,21 +110,16 @@ class App extends Component {
     const { month } = this.state;
     const userVoice = this.state.userNames[name];
 
-
-
     console.log(id);
     let dateId = id.slice(2, 3);
     let checkArrId = id.slice(3, 4);
+    console.log('CheckArrId!!!!!!!!!!!!!!!!++++++++++++++++++++++' + checkArrId)
     const dateObj = Object.values(dates[month])[0];
     const dateObjKeys = Object.keys(dateObj);
-
-    if (dateId == 0) {
-      dateId = 3;
-    } else {
-      dateId = dateId - 1;
-    }
-
+    console.log(dateObjKeys);
+    console.log(dateId);
     const date = dateObjKeys[dateId];
+    console.log(date + 'THE FINAL DATE!!!');
 
     let currSopran = dates[month].individualdates[date].sopran
     let currAlt = dates[month].individualdates[date].alt
@@ -164,7 +159,6 @@ class App extends Component {
           dates[month].individualdates[date].alt = --currAlt;
           break;
         case 'Tenor' :
-
           dates[month].individualdates[date].tenor = --currTenor;
           break;
         case 'Bass' :
@@ -191,7 +185,7 @@ class App extends Component {
       const individualDates = Object.keys(dates[months[i]].individualdates);
       for (let j = 0; j < individualDates.length; j++) {
         console.log(individualDates[j]);
-        const tempDate = individualDates[j];
+        let tempDate = individualDates[j];
         const tempMonthFirstStep = tempDate.slice(0, -4);
         const tempMonth = tempMonthFirstStep.slice(2, 4);
         const tempYear = tempDate.slice(4);
@@ -199,20 +193,25 @@ class App extends Component {
 
         const stringDate = dd.toString() + '.' + tempMonth.toString() + '.' + tempYear.toString()
 
-
+        console.log(this.state.dates[`${this.monthToString(tempMonth - 1)} ${tempYear}`].individualdates[tempDate].names)
 
         const tempId = tempMonth.toString() + j.toString() + counter.toString();
-        if (j !== individualDates.length - 1) {
-          verticalPanesArr.push(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId));
+        const lengthMinusOne = individualDates.length - 1;
+        if (j !== lengthMinusOne) {
+          const tempCounter = counter;
+          const newCounter = tempCounter + 1;
+          const tempTempId = tempMonth.toString()  + j.toString() + newCounter.toString();
+          verticalPanesArr.push(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempTempId));
         } else {
-          verticalPanesArr.unshift(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId));
+          const tempCounter = counter;
+
+          const newCounter = tempCounter - lengthMinusOne;
+          const tempTempId = tempMonth.toString()  + j.toString() + newCounter.toString();
+          verticalPanesArr.unshift(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempTempId));
           verticalPanesObj[months[i]] = verticalPanesArr;
           verticalPanesArr = [];
         }
 
-        if (j === individualDates.length - 1) {
-
-        }
         console.log(this.monthToString(tempMonth - 1));
         console.log(dates[`${this.monthToString(tempMonth - 1)} ${tempYear}`].individualdates[tempDate].names);
 
@@ -242,11 +241,11 @@ class App extends Component {
       render:
         () => <Tab.Pane>
         <TerminTable
-        names={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[`${currDate}`].names}
-        sopran={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[`${currDate}`].sopran}
-        alt={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[`${currDate}`].alt}
-        tenor={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[`${currDate}`].tenor}
-        bass={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[`${currDate}`].bass}
+          names={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].names}
+          sopran={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].sopran}
+          alt={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].alt}
+          tenor={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].tenor}
+          bass={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].bass}
         /></Tab.Pane>
 
     }
@@ -270,7 +269,7 @@ class App extends Component {
       let month = months[i];
       for (let j = 0; j < individualMonthDates.length; j++){
         dates[month].individualdates[individualMonthDates[j]] = {
-          names: ['Fedor'],
+          names: [''],
           sopran: '6',
           alt: '8',
           tenor: '5',
@@ -282,11 +281,37 @@ class App extends Component {
     this.setState({ dates });
   }
 
-  addTermin = (date) => {
-    console.log(date + 'YES!!');
-  }
+    addTermin = (date) => {
+      const year = date.slice(0, -6);
+      const mm = date.slice(5, 7);
+      const dd = date.slice(-2);
+      const dates = { ...this.state.dates };
+      if (dates.hasOwnProperty(`${this.monthToString(mm - 1)} ${year}`)) {
+        console.log('This object has this property!!');
+        dates[`${this.monthToString(mm - 1)} ${year}`].individualdates[`${dd}${mm}${year}`] = {
+          names: [''],
+          sopran: '6',
+          alt: '8',
+          tenor: '5',
+          bass: '5'
+        }
+      } else {
+        dates[`${this.monthToString(mm - 1)} ${year}`] = {
+          individualdates : {
 
+          }
+        }
+        dates[`${this.monthToString(mm - 1)} ${year}`].individualdates[`${dd}${mm}${year}`] = {
+          names: [''],
+          sopran: '6',
+          alt: '8',
+          tenor: '5',
+          bass: '5'
+        }
+      }
 
+      this.setState({ dates });
+    }
 
   addUser = () => {
     const useras = { ...this.state.useras };
