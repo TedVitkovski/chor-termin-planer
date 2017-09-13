@@ -32,12 +32,7 @@ class App extends Component {
       authenticated: false,
       currentUser: null,
       loading: true,
-      checkArr: [false, false, false, false, false, false, false, false],
       month: '',
-      sopran: 6,
-      alt: 8,
-      tenor: 5,
-      bass: 4,
       userNames: {
         'julianej' : 'Sopran',
         'sabinek' : 'Sopran',
@@ -79,54 +74,34 @@ class App extends Component {
       context: this,
       state: 'useras',
     });
+
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       if (user) {
 
-        console.log('This should change the state!!!' + user)
         this.state.currentUser = user;
-        console.log('This should be the user!' + this.state.currentUser.uid);
+
         this.setState({
           currentUser: user,
           authenticated: true,
-          loading: false,
+          loading: false
         })
 
       } else {
+
         this.setState({
           currentUser: null,
           authenticated: false,
           loading: false,
         })
+
       }
     })
-
-
-
   }
 
   componentWillUnmount() {
     this.removeAuthListener();
     base.removeBinding(this.datesRef);
     base.removeBinding(this.usersRef);
-  }
-
-  listenForItems(itemsRef) {
-    itemsRef.on('value', (snap) => {
-      var items = [];
-      snap.forEach((child) => {
-        items.push({
-          useras: child.val()
-        });
-      });
-
-      this.setState({
-        useras: items
-      })
-    })
-  }
-
-  userVoiceToDecrement = (userVoice) => {
-
   }
 
   onChangeToggle = (e) => {
@@ -171,7 +146,6 @@ class App extends Component {
             break;
           case 'Alt' :
             dates[month].individualdates[date].alt = ++currAlt;
-            console.log(dates[month].individualdates[date].alt + '??????????????????????????????');
             break;
           case 'Tenor' :
             dates[month].individualdates[date].tenor = ++currTenor;
@@ -184,7 +158,7 @@ class App extends Component {
       }
     } else {
       dates[month].individualdates[date].names.push(name);
-      console.log('WHY THE HELL!!!! --------- !!!!!!' + userVoice);
+
       switch(userVoice) {
         case 'Sopran' :
           dates[month].individualdates[date].sopran = --currSopran;
@@ -193,7 +167,7 @@ class App extends Component {
           dates[month].individualdates[date].alt = --currAlt;
           break;
         case 'Tenor' :
-          console.log('Hilfe!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+
           dates[month].individualdates[date].tenor = --currTenor;
           break;
         case 'Bass' :
@@ -259,7 +233,6 @@ class App extends Component {
   }
 
   setCurrentUser = (user) => {
-
     if (user) {
       this.setState({
         currentUser: user,
@@ -274,7 +247,6 @@ class App extends Component {
   }
 
   toggleView = () => {
-
     if (this.state.authenticated){
       this.setState(
         {authenticated: false}
@@ -298,22 +270,12 @@ class App extends Component {
     }
   }
 
-  incrementBass = () => {
-    const temp = this.state.bass;
-    this.setState({
-      bass: temp + 1,
-    })
-  }
-
   renderVerticalPanes = () => {
-    console.log(Date.now())
-    console.log(this.state.currentUser.uid + ' Why is the user not initialized?')
+
     const userId = this.state.currentUser.uid;
 
-    console.log(userId);
     const x = JSON.parse(JSON.stringify(this.state));
     console.log(x);
-    console.log(this.state.checkArr);
 
     return {
         'September 2017' :

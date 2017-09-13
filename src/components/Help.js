@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
+class Help extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      startDate: moment()
+    };
+  }
+  
+  render() {
+    return (
+      <div style={{marginTop: '5em'}}>
+        <DatePicker
+            selected={moment()}
+            onChange={this.handleChange.bind(this)}
+        />
+      </div>
+    )
+  }
 
-const Help = (props) => {
-  return (
-    <div style={{marginTop: '5em'}}>
-      <h1>HELP!!!</h1>
-    </div>
-  )
+  handleChange(date) {
+    this.setState({
+      startDate: date
+    });
+  }
+
 }
 
 export default Help;

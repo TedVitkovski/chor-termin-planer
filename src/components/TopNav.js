@@ -23,6 +23,7 @@ class TopNav extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
+
   render() {
     const { activeItem } = this.state;
     return (
@@ -44,7 +45,7 @@ class TopNav extends Component {
                       onInteraction={(state) => this.setState({ popoverOpen: state })}
                       position={Position.BOTTOM}
                     >
-                      <Menu.Item name='termin erstellen' style={{height: '65px'}} onClick={this.props.buttonOnClick} active={ activeItem === 'termin erstellen' } />
+                      <Menu.Item name='termin erstellen' style={{height: '65px'}} onClick={this.handleItemClick} active={ activeItem === 'termin erstellen' } />
                     </Popover>
 
                     <Menu.Menu position='right'>
