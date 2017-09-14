@@ -21,6 +21,29 @@ export const monthToString = (month) => {
 };
 
 /**
+ * This helper function sorts an array of dates in the ascending order.
+ * @function
+ */
+export const sortIndividualDates = (individualDates) => {
+  let sortedArr = [];
+  let days = [];
+  for (let i = 0; i < individualDates.length; i++) {
+    let tempDate = individualDates[i];
+    const tempDay = tempDate.slice(0, 2);
+    days.push(tempDay);
+  }
+  days.sort();
+  for (let i = 0; i < individualDates.length; i++) {
+    let tempDate = individualDates[i];
+    const tempRest = tempDate.slice(2, 8);
+    const newDate = days[i] + tempRest;
+    sortedArr.push(newDate);
+  }
+  return sortedArr;
+}
+
+
+/**
  * This helper function can be used, if one needs to stop
  * the compiler for a certain amount of time
  */

@@ -12,7 +12,7 @@ import Logout from './components/Logout.js';
 import Teilnehmer from './components/Teilnehmer.js';
 import Help from './components/Help.js';
 
-import { monthToString } from './helperFunctions.js';
+import { monthToString, sortIndividualDates } from './helperFunctions.js';
 
 import './styles/App.css';
 
@@ -126,7 +126,7 @@ class App extends Component {
 
     const dateObj = Object.values(dates[monthYear])[0];
     const dateObjKeys = Object.keys(dateObj);
-    const sortedDateObjKeys = this.sortIndividualDates(dateObjKeys);
+    const sortedDateObjKeys = sortIndividualDates(dateObjKeys);
     const date = sortedDateObjKeys[dateId];
     console.log('::::::::::::::::::::::::::::::::::::::::')
     console.log(date);
@@ -179,24 +179,6 @@ class App extends Component {
     this.setState({ useras });
   }
 
-  sortIndividualDates = (individualDates) => {
-    let sortedArr = [];
-    let days = [];
-    for (let i = 0; i < individualDates.length; i++) {
-      let tempDate = individualDates[i];
-      const tempDay = tempDate.slice(0, 2);
-      days.push(tempDay);
-    }
-    days.sort();
-    for (let i = 0; i < individualDates.length; i++) {
-      let tempDate = individualDates[i];
-      const tempRest = tempDate.slice(2, 8);
-      const newDate = days[i] + tempRest;
-      sortedArr.push(newDate);
-    }
-    return sortedArr;
-  }
-
 
   /**
    * The mainRenderer function returns an object with all vertical panes by reading all
@@ -216,18 +198,19 @@ class App extends Component {
 
     for (let i = 0; i < months.length; i++) {
       const individualDatesUnsorted = Object.keys(dates[months[i]].individualdates);
-      const individualDates = this.sortIndividualDates(individualDatesUnsorted);
+      const individualDates = sortIndividualDates(individualDatesUnsorted);
       for (let j = 0; j < individualDates.length; j++) {
         let tempDate = individualDates[j];
         const tempMonthFirstStep = tempDate.slice(0, -4);
         const tempMonth = tempMonthFirstStep.slice(2, 4);
         const tempYear = tempDate.slice(4);
-        const tempDay = tempDate.slice(0, 2)
+        const tempDay = tempDate.slice(0, 2);
 
         const stringDate = tempDay.toString() + '.' + tempMonth.toString() + '.' + tempYear.toString()
 
         const tempId = tempMonth.toString()  + j.toString() + counter.toString();
-        verticalPanesArr.push(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId));
+        const checkArrId = tempId.slice(3, tempId.length);
+        verticalPanesArr.push(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId, checkArrId));
         counter++;
       }
       verticalPanesObj[months[i]] = verticalPanesArr;
@@ -241,7 +224,7 @@ class App extends Component {
    * and returns exactly one vertical pane object.
    * @function
    */
-  renderVerticalPane = (currDate, currDateString, currMonth, currYear, currId) => {
+  renderVerticalPane = (currDate, currDateString, currMonth, currYear, currId, checkArrId) => {
     return {
       menuItem:
         <Menu.Item>
@@ -250,8 +233,8 @@ class App extends Component {
             <label>
               <Toggle
                 id={currId}
-                key={currId.slice(0, -1)}
-                defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[0]}
+                key={checkArrId}
+                defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[checkArrId]}
                 onChange={this.onChangeToggle}
               />
             </label>
