@@ -28,14 +28,15 @@ class TopNav extends Component {
     const { activeItem } = this.state;
     return (
         <div style={{marginBottom: '4em'}}>
-          {console.log('TOPNAV' + this.props.authenticated)}
+
           {this.props.authenticated
               ? (<Menu size='large'>
-                    <Menu.Menu>
+                    <Menu.Menu >
                       <Menu.Item>
                         <HeaderView />
                       </Menu.Item>
                     </Menu.Menu>
+
                     <Menu.Item name='terminplaner' as={ Link } to='/' active={ activeItem === 'terminkalender' } onClick={this.handleItemClick} />
                     <Menu.Item name='teilnehmer' as={ Link } to='/teilnehmer' active={ activeItem === 'teilnehmer' } onClick={this.handleItemClick} />
 
@@ -48,21 +49,36 @@ class TopNav extends Component {
                       on='click'
                       position='bottom center'
                     >
-                      <NewTerminForm addTermin={this.props.addTermin} postSubmitHandler={this.closePopover} />
+                      <NewTerminForm
+                        addTermin={this.props.addTermin}
+                        postSubmitHandler={this.closePopover}
+                      />
                     </Popup>
 
                     <Menu.Menu position='right'>
                       <Menu.Item>
                         <p>Eingeloggt als: <span style={{fontWeight: '700'}}>{this.props.currentUser.email.slice(0, -8)}</span></p>
                       </Menu.Item>
-                      <Menu.Item name='hilfe' as={ Link } to='/help' active={ activeItem === 'hilfe' } onClick={this.handleItemClick} />
+                      <Menu.Item
+                        name='hilfe'
+                        as={ Link }
+                        to='/help'
+                        active={ activeItem === 'hilfe' }
+                        onClick={ this.handleItemClick }
+                      />
 
                       <Menu.Item>
                         <Link to='/logout'>
-                          <Button basic color='orange' onClick={this.props.onClick}>Abmelden</Button>
+                          <Button
+                            basic color='orange'
+                            onClick={this.props.onClick}
+                          >
+                          Abmelden
+                          </Button>
                         </Link>
                       </Menu.Item>
                     </Menu.Menu>
+
                  </Menu>
                )
               : (<Menu size='large'>
@@ -72,16 +88,28 @@ class TopNav extends Component {
                       </Menu.Item>
                     </Menu.Menu>
                     <Menu.Menu position='right'>
-                      <Menu.Item name='hilfe' active={ activeItem === 'hilfe' } onClick={this.handleItemClick} />
+                      <Menu.Item
+                        name='hilfe'
+                        active={ activeItem === 'hilfe' }
+                        onClick={this.handleItemClick}
+                      />
                       <Menu.Item>
                           <Link to='/login'>
-                            <Button basic color='orange' onClick={this.props.onClick}>Anmelden</Button>
+                            <Button
+                              basic
+                              color='orange'
+                              onClick={this.props.onClick}
+                            >
+                              Anmelden
+                            </Button>
                           </Link>
                       </Menu.Item>
                     </Menu.Menu>
+
                  </Menu>
                )
           }
+          
         </div>
     );
   }

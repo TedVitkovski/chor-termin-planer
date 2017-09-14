@@ -27,7 +27,6 @@ class App extends Component {
   constructor() {
     super();
 
-    this.itemsRef = app.database().ref();
     this.setCurrentUser = this.setCurrentUser.bind(this);
 
     this.state = {

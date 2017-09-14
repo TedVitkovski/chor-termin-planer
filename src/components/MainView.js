@@ -8,6 +8,7 @@ import '../styles/ToggleButton.css';
 
 import { monthToString } from '../helperFunctions.js';
 
+
 class MainView extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +17,12 @@ class MainView extends Component {
       currYear: props.currYear,
       userNames: [],
     };
+
   };
+
+  getMonthYear = () => {
+    return `${monthToString(this.state.currMonth)} ${this.state.currYear}`
+  }
 
   componentWillMount() {
     this.formatMonthYear();
@@ -50,29 +56,28 @@ class MainView extends Component {
    * to the main App component
    */
   formatMonthYear = () => {
-    const monthYear = `${monthToString(this.state.currMonth)} ${this.state.currYear}`;
-    this.props.sendMonth(monthYear);
+    this.props.sendMonth(this.getMonthYear());
   }
 
 
   render() {
-
     return (
       <div>
+
         <Container textAlign='center' style={{ marginBottom: '3em', marginTop: '3em' }} >
           <Button.Group basic>
             <Button labelPosition='left' icon='left chevron' content='Letzter Monat' onClick={this.prevMonth} />
             <Button onClick={this.props.onClick} style={{ fontSize: '23px', fontWeight: '900', cursor: 'auto', minWidth: '250px' }}
-            content={`${monthToString(this.state.currMonth)} ${this.state.currYear}`} />
+            content={this.getMonthYear()} />
             <Button labelPosition='right' icon='right chevron' content='Nächster Monat' onClick={this.nextMonth} />
           </Button.Group>
         </Container>
 
-        <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={this.props.verticalPanes[`${monthToString(this.state.currMonth)} ${this.state.currYear}`]} />
+        <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={this.props.verticalPanes[this.getMonthYear()]} />
+
       </div>
     );
   }
-
 }
 
 export default MainView;

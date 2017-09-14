@@ -63,7 +63,6 @@ class Login extends Component {
   render() {
     const { login, password, submittedName, submittedPassword, redirect } = this.state;
     if (redirect) {
-      console.log('redirected from the Login Component!');
       return <Redirect to='/' />
     }
     return (
