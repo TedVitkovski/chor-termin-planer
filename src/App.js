@@ -206,7 +206,7 @@ class App extends Component {
   renderVerticalPane = (currDate, currDateString, currMonth, currYear, currId, checkArrId) => {
     return {
       menuItem:
-        <Menu.Item>
+        <Menu.Item key={checkArrId}>
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <span style={{marginRight: '2em'}}>{currDateString}</span>
             <label>

@@ -90,10 +90,14 @@ class TopNav extends Component {
                     <Menu.Menu position='right'>
                       <Menu.Item
                         name='hilfe'
+                        as={ Link }
+                        to='/help'
                         active={ activeItem === 'hilfe' }
                         onClick={this.handleItemClick}
                       />
-                      <Menu.Item>
+                      <Menu.Item
+                        onClick={this.handleItemClick}
+                      >
                           <Link to='/login'>
                             <Button
                               basic
@@ -109,7 +113,7 @@ class TopNav extends Component {
                  </Menu>
                )
           }
-          
+
         </div>
     );
   }
