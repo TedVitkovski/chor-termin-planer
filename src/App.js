@@ -120,12 +120,17 @@ class App extends Component {
     const userVoice = this.state.userNames[name];
 
     const dateId = id.slice(2, 3);
-    const checkArrId = id.slice(3, 4);
+    const checkArrId = id.slice(3, id.length);
+    console.log(checkArrId);
+    console.log(id);
 
     const dateObj = Object.values(dates[monthYear])[0];
     const dateObjKeys = Object.keys(dateObj);
-    const date = dateObjKeys[dateId];
-
+    const sortedDateObjKeys = this.sortIndividualDates(dateObjKeys);
+    const date = sortedDateObjKeys[dateId];
+    console.log('::::::::::::::::::::::::::::::::::::::::')
+    console.log(date);
+    console.log('::::::::::::::::::::::::::::::::::::::::')
     let currSopran = dates[monthYear].individualdates[date].sopran
     let currAlt = dates[monthYear].individualdates[date].alt
     let currTenor = dates[monthYear].individualdates[date].tenor
@@ -174,6 +179,25 @@ class App extends Component {
     this.setState({ useras });
   }
 
+  sortIndividualDates = (individualDates) => {
+    let sortedArr = [];
+    let days = [];
+    for (let i = 0; i < individualDates.length; i++) {
+      let tempDate = individualDates[i];
+      const tempDay = tempDate.slice(0, 2);
+      days.push(tempDay);
+    }
+    days.sort();
+    for (let i = 0; i < individualDates.length; i++) {
+      let tempDate = individualDates[i];
+      const tempRest = tempDate.slice(2, 8);
+      const newDate = days[i] + tempRest;
+      sortedArr.push(newDate);
+    }
+    return sortedArr;
+  }
+
+
   /**
    * The mainRenderer function returns an object with all vertical panes by reading all
    * required data from the database and making a call to renderVerticalPane for each dataset.
@@ -181,15 +205,18 @@ class App extends Component {
    */
   mainRenderer = () => {
     const dates = { ...this.state.dates }
+    console.log('---------------------------------------')
+    console.log(dates);
+    console.log('---------------------------------------')
     const months = Object.keys(dates);
-
     let counter = 0;
 
     let verticalPanesObj = {};
     let verticalPanesArr = [];
 
     for (let i = 0; i < months.length; i++) {
-      const individualDates = Object.keys(dates[months[i]].individualdates);
+      const individualDatesUnsorted = Object.keys(dates[months[i]].individualdates);
+      const individualDates = this.sortIndividualDates(individualDatesUnsorted);
       for (let j = 0; j < individualDates.length; j++) {
         let tempDate = individualDates[j];
         const tempMonthFirstStep = tempDate.slice(0, -4);
@@ -199,23 +226,12 @@ class App extends Component {
 
         const stringDate = tempDay.toString() + '.' + tempMonth.toString() + '.' + tempYear.toString()
 
-
-        const lengthMinusOne = individualDates.length - 1;
-        if (j !== lengthMinusOne) {
-          const tempCounter = counter;
-          const newCounter = tempCounter + 1;
-          const tempId = tempMonth.toString()  + j.toString() + newCounter.toString();
-          verticalPanesArr.push(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId));
-        } else {
-          const tempCounter = counter;
-          const newCounter = tempCounter - lengthMinusOne;
-          const tempId = tempMonth.toString()  + j.toString() + newCounter.toString();
-          verticalPanesArr.unshift(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId));
-          verticalPanesObj[months[i]] = verticalPanesArr;
-          verticalPanesArr = [];
-        }
+        const tempId = tempMonth.toString()  + j.toString() + counter.toString();
+        verticalPanesArr.push(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId));
         counter++;
       }
+      verticalPanesObj[months[i]] = verticalPanesArr;
+      verticalPanesArr = [];
     }
     return verticalPanesObj;
   }
