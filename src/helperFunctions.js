@@ -54,3 +54,14 @@ export const wait = (ms) => {
     end = new Date().getTime();
   }
 }
+
+/**
+ * This helper function can be used, if one needs to check,
+ * whether the passed object is empty
+ */
+export const isEmpty = (obj) => {
+  for (var p in obj) {
+    return false;
+  }
+  return true;
+}

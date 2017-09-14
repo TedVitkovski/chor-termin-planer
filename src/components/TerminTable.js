@@ -123,7 +123,11 @@ class TerminTable extends Component {
         </Table.Header>
 
         <Table.Body>
-          <DynamicTableRow users={users} />
+          <DynamicTableRow users={users} rowNumber={0}/>
+          <DynamicTableRow users={users} rowNumber={1}/>
+          <DynamicTableRow users={users} rowNumber={2}/>
+          <DynamicTableRow users={users} rowNumber={3}/>
+          <DynamicTableRow users={users} rowNumber={3}/>
         </Table.Body>
         <Table.Footer>
           <Table.Row>

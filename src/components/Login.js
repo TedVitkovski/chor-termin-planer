@@ -73,7 +73,7 @@ class Login extends Component {
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '4em'}}>
             <Form className='segment' size={'large'} onSubmit={this.authWithEmailPassword}>
                 <Form.Input label='Login: ' type='text' name='login' value={login} placeholder='Login...' onChange={this.handleChange} />
-                <Form.Input label='Password: ' type='password' name='password' value={password} placeholder='Password...' onChange={this.handleChange} width='16' />
+                <Form.Input label='Passwort: ' type='password' name='password' value={password} placeholder='Passwort...' onChange={this.handleChange} width='16' />
                 <Form.Button content='Einloggen' />
             </Form>
         </div>
