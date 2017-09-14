@@ -2,35 +2,6 @@ import React, { Component } from 'react';
 import { Table } from 'semantic-ui-react';
 
 class TerminTable extends Component {
-  constructor(props) {
-    super(props);
-    console.log('TERMINTABLE' + this.props.names);
-
-    this.state = {
-      userNames: {
-        'julianej' : 'Sopran',
-        'sabinek' : 'Sopran',
-        'gerlindel' : 'Sopran',
-        'annez' : 'Sopran',
-        'mariannes' : 'Sopran',
-        'kerstinb' : 'Alt',
-        'renatep' : 'Alt',
-        'angelikah' : 'Alt',
-        'joerdisp' : 'Alt',
-        'annelorer' : 'Alt',
-        'barbaras' : 'Alt',
-        'mariaw' : 'Alt',
-        'martina' : 'Tenor',
-        'lotharb' : 'Tenor',
-        'sebastianh' : 'Tenor',
-        'matthiasr' : 'Tenor',
-        'hadriant' : 'Bass',
-        'christofw' : 'Bass',
-        'rainerw' : 'Bass',
-        'alexanderk' : 'Bass'
-      }
-    }
-  };
 
   userVoiceToColumns = (userVoice, counter) => {
     switch(userVoice) {
@@ -78,7 +49,7 @@ class TerminTable extends Component {
     for (let i = 0; i < this.props.names.length; i++) {
       let userName = this.props.names[i];
       console.log(userName);
-      let userVoice = this.state.userNames[userName];
+      let userVoice = this.props.userVoices[userName];
       let userColumns = this.userVoiceToColumns(userVoice, i);
       rows.push(userColumns);
     }

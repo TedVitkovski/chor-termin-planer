@@ -32,32 +32,11 @@ class App extends Component {
     this.state = {
       dates: { },
       useras: { },
+      userVoices: { },
       authenticated: false,
       currentUser: null,
       loading: true,
       monthYear: '',
-      userNames: {
-        'julianej' : 'Sopran',
-        'sabinek' : 'Sopran',
-        'gerlindel' : 'Sopran',
-        'annez' : 'Sopran',
-        'mariannes' : 'Sopran',
-        'kerstinb' : 'Alt',
-        'renatep' : 'Alt',
-        'angelikah' : 'Alt',
-        'joerdisp' : 'Alt',
-        'annelorer' : 'Alt',
-        'barbaras' : 'Alt',
-        'mariaw' : 'Alt',
-        'martina' : 'Tenor',
-        'lotharb' : 'Tenor',
-        'sebastianh' : 'Tenor',
-        'matthiasr' : 'Tenor',
-        'hadriant' : 'Bass',
-        'christofw' : 'Bass',
-        'rainerw' : 'Bass',
-        'alexanderk' : 'Bass'
-      }
 
     }
   }
@@ -66,13 +45,19 @@ class App extends Component {
 
     this.datesRef = base.syncState('dates', {
       context: this,
-      state: 'dates'
+      state: 'dates',
     });
 
     this.usersRef = base.syncState('useras', {
       context: this,
       state: 'useras',
     });
+
+    this.userVoicesRef = base.syncState('userVoices', {
+      context: this,
+      state: 'userVoices',
+    })
+
 
     this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -101,6 +86,7 @@ class App extends Component {
     this.removeAuthListener();
     base.removeBinding(this.datesRef);
     base.removeBinding(this.usersRef);
+    base.removeBinding(this.userVoicesRef);
   }
 
   /**
@@ -117,7 +103,7 @@ class App extends Component {
     const dates = { ...this.state.dates };
     const useras = { ...this.state.useras };
     const { monthYear } = this.state;
-    const userVoice = this.state.userNames[name];
+    const userVoice = this.state.userVoices[name];
 
     const dateId = id.slice(2, 3);
     const checkArrId = id.slice(3, id.length);
@@ -128,9 +114,7 @@ class App extends Component {
     const dateObjKeys = Object.keys(dateObj);
     const sortedDateObjKeys = sortIndividualDates(dateObjKeys);
     const date = sortedDateObjKeys[dateId];
-    console.log('::::::::::::::::::::::::::::::::::::::::')
-    console.log(date);
-    console.log('::::::::::::::::::::::::::::::::::::::::')
+
     let currSopran = dates[monthYear].individualdates[date].sopran
     let currAlt = dates[monthYear].individualdates[date].alt
     let currTenor = dates[monthYear].individualdates[date].tenor
@@ -187,9 +171,6 @@ class App extends Component {
    */
   mainRenderer = () => {
     const dates = { ...this.state.dates }
-    console.log('---------------------------------------')
-    console.log(dates);
-    console.log('---------------------------------------')
     const months = Object.keys(dates);
     let counter = 0;
 
@@ -244,6 +225,7 @@ class App extends Component {
         () =>
         <Tab.Pane>
           <TerminTable
+            userVoices={this.state.userVoices}
             names={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].names}
             sopran={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].sopran}
             alt={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].alt}
