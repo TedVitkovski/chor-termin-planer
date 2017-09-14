@@ -11,6 +11,9 @@ import Login from './components/Login.js';
 import Logout from './components/Logout.js';
 import Teilnehmer from './components/Teilnehmer.js';
 import Help from './components/Help.js';
+
+import { monthToString } from './helperFunctions.js';
+
 import './styles/App.css';
 
 import { app, base } from './base';
@@ -33,7 +36,7 @@ class App extends Component {
       authenticated: false,
       currentUser: null,
       loading: true,
-      month: '',
+      monthYear: '',
       userNames: {
         'julianej' : 'Sopran',
         'sabinek' : 'Sopran',
@@ -101,81 +104,86 @@ class App extends Component {
     base.removeBinding(this.usersRef);
   }
 
+  /**
+   * onChangeToggle gets called every time the user clicks on the Toggle button.
+   * The name of the user gets pushed into the names array and the numbers on the
+   * bottom of the table get updated (via switch statement). The user's clickarray
+   * gets updated as well.
+   * @function
+   */
   onChangeToggle = (e) => {
 
     const name = this.state.currentUser.email.slice(0, -8);
     const id = e.target.id;
     const dates = { ...this.state.dates };
     const useras = { ...this.state.useras };
-    const { month } = this.state;
+    const { monthYear } = this.state;
     const userVoice = this.state.userNames[name];
 
-    console.log(id);
-    let dateId = id.slice(2, 3);
-    let checkArrId = id.slice(3, 4);
-    console.log('CheckArrId!!!!!!!!!!!!!!!!++++++++++++++++++++++' + checkArrId)
-    const dateObj = Object.values(dates[month])[0];
+    const dateId = id.slice(2, 3);
+    const checkArrId = id.slice(3, 4);
+
+    const dateObj = Object.values(dates[monthYear])[0];
     const dateObjKeys = Object.keys(dateObj);
-    console.log(dateObjKeys);
-    console.log(dateId);
     const date = dateObjKeys[dateId];
-    console.log(date + 'THE FINAL DATE!!!');
 
-    let currSopran = dates[month].individualdates[date].sopran
-    let currAlt = dates[month].individualdates[date].alt
-    let currTenor = dates[month].individualdates[date].tenor
-    let currBass = dates[month].individualdates[date].bass
-    console.log(currSopran + ' Der SOPRANO!!');
-
+    let currSopran = dates[monthYear].individualdates[date].sopran
+    let currAlt = dates[monthYear].individualdates[date].alt
+    let currTenor = dates[monthYear].individualdates[date].tenor
+    let currBass = dates[monthYear].individualdates[date].bass
 
     if (e.target.checked) {
-      const i = dates[month].individualdates[date].names.indexOf(name);
+      const i = dates[monthYear].individualdates[date].names.indexOf(name);
+
       if (i != -1) {
-        dates[month].individualdates[date].names.splice(i, 1);
+        dates[monthYear].individualdates[date].names.splice(i, 1);
         switch(userVoice) {
           case 'Sopran' :
-            dates[month].individualdates[date].sopran = ++currSopran;
+            dates[monthYear].individualdates[date].sopran = ++currSopran;
             break;
           case 'Alt' :
-            dates[month].individualdates[date].alt = ++currAlt;
+            dates[monthYear].individualdates[date].alt = ++currAlt;
             break;
           case 'Tenor' :
-            dates[month].individualdates[date].tenor = ++currTenor;
+            dates[monthYear].individualdates[date].tenor = ++currTenor;
             break;
           case 'Bass' :
-            dates[month].individualdates[date].bass = ++currBass;
+            dates[monthYear].individualdates[date].bass = ++currBass;
             break;
         }
         this.state.useras[this.state.currentUser.uid].clickArr[checkArrId] = true;
       }
     } else {
-      dates[month].individualdates[date].names.push(name);
-
+      dates[monthYear].individualdates[date].names.push(name);
       switch(userVoice) {
         case 'Sopran' :
-          dates[month].individualdates[date].sopran = --currSopran;
+          dates[monthYear].individualdates[date].sopran = --currSopran;
           break;
         case 'Alt' :
-          dates[month].individualdates[date].alt = --currAlt;
+          dates[monthYear].individualdates[date].alt = --currAlt;
           break;
         case 'Tenor' :
-          dates[month].individualdates[date].tenor = --currTenor;
+          dates[monthYear].individualdates[date].tenor = --currTenor;
           break;
         case 'Bass' :
-          dates[month].individualdates[date].bass = --currBass;
+          dates[monthYear].individualdates[date].bass = --currBass;
           break;
       }
-
       this.state.useras[this.state.currentUser.uid].clickArr[checkArrId] = false;
     }
     this.setState({ dates });
     this.setState({ useras });
-
   }
 
+  /**
+   * The mainRenderer function returns an object with all vertical panes by reading all
+   * required data from the database and making a call to renderVerticalPane for each dataset.
+   * @function
+   */
   mainRenderer = () => {
     const dates = { ...this.state.dates }
     const months = Object.keys(dates);
+
     let counter = 0;
 
     let verticalPanesObj = {};
@@ -184,44 +192,40 @@ class App extends Component {
     for (let i = 0; i < months.length; i++) {
       const individualDates = Object.keys(dates[months[i]].individualdates);
       for (let j = 0; j < individualDates.length; j++) {
-        console.log(individualDates[j]);
         let tempDate = individualDates[j];
         const tempMonthFirstStep = tempDate.slice(0, -4);
         const tempMonth = tempMonthFirstStep.slice(2, 4);
         const tempYear = tempDate.slice(4);
-        const dd = tempDate.slice(0, 2)
+        const tempDay = tempDate.slice(0, 2)
 
-        const stringDate = dd.toString() + '.' + tempMonth.toString() + '.' + tempYear.toString()
+        const stringDate = tempDay.toString() + '.' + tempMonth.toString() + '.' + tempYear.toString()
 
-        console.log(this.state.dates[`${this.monthToString(tempMonth - 1)} ${tempYear}`].individualdates[tempDate].names)
 
-        const tempId = tempMonth.toString() + j.toString() + counter.toString();
         const lengthMinusOne = individualDates.length - 1;
         if (j !== lengthMinusOne) {
           const tempCounter = counter;
           const newCounter = tempCounter + 1;
-          const tempTempId = tempMonth.toString()  + j.toString() + newCounter.toString();
-          verticalPanesArr.push(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempTempId));
+          const tempId = tempMonth.toString()  + j.toString() + newCounter.toString();
+          verticalPanesArr.push(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId));
         } else {
           const tempCounter = counter;
-
           const newCounter = tempCounter - lengthMinusOne;
-          const tempTempId = tempMonth.toString()  + j.toString() + newCounter.toString();
-          verticalPanesArr.unshift(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempTempId));
+          const tempId = tempMonth.toString()  + j.toString() + newCounter.toString();
+          verticalPanesArr.unshift(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId));
           verticalPanesObj[months[i]] = verticalPanesArr;
           verticalPanesArr = [];
         }
-
-        console.log(this.monthToString(tempMonth - 1));
-        console.log(dates[`${this.monthToString(tempMonth - 1)} ${tempYear}`].individualdates[tempDate].names);
-
-        console.log(verticalPanesObj);
         counter++;
       }
     }
     return verticalPanesObj;
   }
 
+  /**
+   * The renderVerticalPane function constructs with given parameters
+   * and returns exactly one vertical pane object.
+   * @function
+   */
   renderVerticalPane = (currDate, currDateString, currMonth, currYear, currId) => {
     return {
       menuItem:
@@ -239,56 +243,35 @@ class App extends Component {
           </div>
         </Menu.Item>,
       render:
-        () => <Tab.Pane>
-        <TerminTable
-          names={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].names}
-          sopran={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].sopran}
-          alt={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].alt}
-          tenor={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].tenor}
-          bass={this.state.dates[`${this.monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].bass}
-        /></Tab.Pane>
-
+        () =>
+        <Tab.Pane>
+          <TerminTable
+            names={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].names}
+            sopran={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].sopran}
+            alt={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].alt}
+            tenor={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].tenor}
+            bass={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].bass}
+          />
+        </Tab.Pane>
     }
   }
 
-
-  addItem = () => {
-    const dates = { ...this.state.dates };
-    const months = ['September 2017', 'Oktober 2017'];
-
-    for (let i = 0; i < months.length; i++) {
-      dates[months[i]] = {
-        individualdates : {
-
-        }
-      }
-    }
-
-    for (let i = 0; i < this.state.individualDates.length; i++) {
-      let individualMonthDates = this.state.individualDates[i];
-      let month = months[i];
-      for (let j = 0; j < individualMonthDates.length; j++){
-        dates[month].individualdates[individualMonthDates[j]] = {
-          names: [''],
-          sopran: '6',
-          alt: '8',
-          tenor: '5',
-          bass: '5'
-        }
-      }
-    }
-
-    this.setState({ dates });
-  }
-
-    addTermin = (date) => {
-      const year = date.slice(0, -6);
+  /**
+   * The addTermin function does exactly what it says. It adds an appointment
+   * to the calendar view with the date taken from the NewTerminForm.
+   * @function
+   */
+  addTermin = (date) => {
+      const dates = { ...this.state.dates };
+      const yyyy = date.slice(0, -6);
       const mm = date.slice(5, 7);
       const dd = date.slice(-2);
-      const dates = { ...this.state.dates };
-      if (dates.hasOwnProperty(`${this.monthToString(mm - 1)} ${year}`)) {
-        console.log('This object has this property!!');
-        dates[`${this.monthToString(mm - 1)} ${year}`].individualdates[`${dd}${mm}${year}`] = {
+
+      const formattedMonthYear = `${monthToString(mm - 1)} ${yyyy}`;
+      const formattedDate = `${dd}${mm}${yyyy}`;
+
+      if (dates.hasOwnProperty(formattedMonthYear)) {
+        dates[formattedMonthYear].individualdates[formattedDate] = {
           names: [''],
           sopran: '6',
           alt: '8',
@@ -296,12 +279,12 @@ class App extends Component {
           bass: '5'
         }
       } else {
-        dates[`${this.monthToString(mm - 1)} ${year}`] = {
+        dates[formattedMonthYear] = {
           individualdates : {
 
           }
         }
-        dates[`${this.monthToString(mm - 1)} ${year}`].individualdates[`${dd}${mm}${year}`] = {
+        dates[formattedMonthYear].individualdates[formattedDate] = {
           names: [''],
           sopran: '6',
           alt: '8',
@@ -309,13 +292,16 @@ class App extends Component {
           bass: '5'
         }
       }
-
       this.setState({ dates });
     }
 
+  /**
+   * The addUser function adds a user to the database.
+   * @function
+   */
   addUser = () => {
     const useras = { ...this.state.useras };
-    console.log(this.state.currentUser.uid);
+
     useras[this.state.currentUser.uid] = {
       clickArr: {
         0: true,
@@ -331,6 +317,10 @@ class App extends Component {
     this.setState({ useras });
   }
 
+  /**
+   * The setCurrent user sets the currentUser and the authenticated status.
+   * @function
+   */
   setCurrentUser = (user) => {
     if (user) {
       this.setState({
@@ -345,6 +335,10 @@ class App extends Component {
     }
   }
 
+  /**
+   * The toggleView function gets called when the logOut button is
+   * is clicked
+   */
   toggleView = () => {
     if (this.state.authenticated){
       this.setState(
@@ -356,39 +350,12 @@ class App extends Component {
       );
     }
   }
-
-  myCallback = (dataFromChild) => {
-    this.setState({ month: dataFromChild });
+  /**
+   * This function set
+   */
+  receiveMonth = (monthYear) => {
+    this.setState({ monthYear });
   }
-
-  wait = (ms) => {
-    var start = new Date().getTime();
-    var end = start;
-    while(end < start + ms) {
-      end = new Date().getTime();
-    }
-  }
-
-  /* This helper function turn a month into a string */
-  monthToString = (month) => {
-    console.log('HELP ME!' + this.props.verticalPanes);
-    const monthNames = [
-      'Januar',
-      'Februar',
-      'März',
-      'April',
-      'Mai',
-      'Juni',
-      'Juli',
-      'August',
-      'September',
-      'Oktober',
-      'November',
-      'Dezember',
-    ];
-    return monthNames[month];
-  };
-
 
   render() {
 
@@ -420,7 +387,7 @@ class App extends Component {
                             verticalPanes = {this.mainRenderer()}
                             currMonth = {currDate.getMonth()}
                             currYear = {currDate.getFullYear()}
-                            callbackFromParent = {this.myCallback}
+                            sendMonth = {this.receiveMonth}
                             onClick = {this.incrementBass}
                           />
                         )

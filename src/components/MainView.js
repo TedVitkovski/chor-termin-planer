@@ -6,6 +6,8 @@ import HeaderView from './Header.js';
 import TerminTable from './TerminTable.js';
 import '../styles/ToggleButton.css';
 
+import { monthToString } from '../helperFunctions.js';
+
 class MainView extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +19,7 @@ class MainView extends Component {
   };
 
   componentWillMount() {
-    this.someFn();
+    this.formatMonthYear();
   }
 
   /* This function changes the current month to the previous month */
@@ -28,7 +30,7 @@ class MainView extends Component {
     this.setState({
       currMonth: tempDate.getMonth(),
       currYear: tempDate.getFullYear(),
-    }, () => this.someFn());
+    }, () => this.formatMonthYear());
   };
 
   /* This function changes the current month to the next month */
@@ -39,33 +41,17 @@ class MainView extends Component {
     this.setState({
       currMonth: tempDate.getMonth(),
       currYear: tempDate.getFullYear(),
-    }, () => this.someFn());
+    }, () => this.formatMonthYear());
 
   };
 
-  /* This helper function turn a month into a string */
-  monthToString = (month) => {
-    console.log('HELP ME!' + this.props.verticalPanes);
-    const monthNames = [
-      'Januar',
-      'Februar',
-      'März',
-      'April',
-      'Mai',
-      'Juni',
-      'Juli',
-      'August',
-      'September',
-      'Oktober',
-      'November',
-      'Dezember',
-    ];
-    return monthNames[month];
-  };
-
-  someFn = () => {
-    let month = `${this.monthToString(this.state.currMonth)} ${this.state.currYear}`;
-    this.props.callbackFromParent(month);
+  /**
+   * This function formats the month and year and sends it
+   * to the main App component
+   */
+  formatMonthYear = () => {
+    const monthYear = `${monthToString(this.state.currMonth)} ${this.state.currYear}`;
+    this.props.sendMonth(monthYear);
   }
 
 
@@ -77,12 +63,12 @@ class MainView extends Component {
           <Button.Group basic>
             <Button labelPosition='left' icon='left chevron' content='Letzter Monat' onClick={this.prevMonth} />
             <Button onClick={this.props.onClick} style={{ fontSize: '23px', fontWeight: '900', cursor: 'auto', minWidth: '250px' }}
-            content={`${this.monthToString(this.state.currMonth)} ${this.state.currYear}`} />
+            content={`${monthToString(this.state.currMonth)} ${this.state.currYear}`} />
             <Button labelPosition='right' icon='right chevron' content='Nächster Monat' onClick={this.nextMonth} />
           </Button.Group>
         </Container>
 
-        <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={this.props.verticalPanes[`${this.monthToString(this.state.currMonth)} ${this.state.currYear}`]} />
+        <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={this.props.verticalPanes[`${monthToString(this.state.currMonth)} ${this.state.currYear}`]} />
       </div>
     );
   }
