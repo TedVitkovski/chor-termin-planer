@@ -105,8 +105,6 @@ class App extends Component {
 
     const dateId = id.slice(2, 3);
     const checkArrId = id.slice(3, id.length);
-    console.log(checkArrId);
-    console.log(id);
 
     const dateObj = Object.values(dates[monthYear])[0];
     const dateObjKeys = Object.keys(dateObj);
@@ -159,6 +157,7 @@ class App extends Component {
     }
     this.setState({ dates });
     this.setState({ useras });
+    this.mainRenderer();
   }
 
 
@@ -213,7 +212,7 @@ class App extends Component {
               <Toggle
                 id={currId}
                 key={checkArrId}
-                defaultChecked={this.state.useras[this.state.currentUser.uid].clickArr[checkArrId]}
+                checked={this.state.useras[this.state.currentUser.uid].clickArr[checkArrId]}
                 onChange={this.onChangeToggle}
               />
             </label>
@@ -469,7 +468,6 @@ class App extends Component {
                           />
                         )
                       } else {
-                        console.log('The authenticated has not changed' + this.state.authenticated)
                         return (
                           <Redirect to='/login' />
                         );
