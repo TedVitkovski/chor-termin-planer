@@ -1,83 +1,128 @@
-import React, { Component } from 'react';
-import { Button, Loader, Dimmer, Segment, Tab, Menu, Container, Label, Popup } from 'semantic-ui-react';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 
-import Toggle from 'react-toggle';
+import {
+  Button,
+  Loader,
+  Dimmer,
+  Segment,
+  Tab,
+  Menu,
+  Container,
+  Label,
+  Popup
+} from "semantic-ui-react";
 
-import TerminTable from './components/TerminTable.js';
-import MainView from './components/MainView.js';
-import TopNav from './components/TopNav.js';
-import Login from './components/Login.js';
-import Logout from './components/Logout.js';
-import Teilnehmer from './components/Teilnehmer.js';
-import Help from './components/Help.js';
 
-import { monthToString, sortIndividualDates, isEmpty } from './helperFunctions.js';
+import FadeTransition from './animations/FadeTransition.js';
+import TransitionGroup from "react-transition-group/TransitionGroup";
 
-import './styles/App.css';
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 
-import { app, base } from './base';
+import Toggle from "react-toggle";
 
+import TerminTable from "./components/TerminTable.js";
+import MainView from "./components/MainView.js";
+import TopNav from "./components/TopNav.js";
+import Login from "./components/Login.js";
+import Logout from "./components/Logout.js";
+import Teilnehmer from "./components/Teilnehmer.js";
+import Help from "./components/Help.js";
+
+import {
+  monthToString,
+  sortIndividualDates,
+  isEmpty
+} from "./helperFunctions.js";
+
+import "./styles/App.css";
+
+import { app, base } from "./base";
 
 const currDate = new Date();
 
+class FadeIn extends Component {
+
+  componentDidMount() {
+    var that = this;
+    // Get the components DOM node
+    var elem = ReactDOM.findDOMNode(that);
+    // Set the opacity of the element to 0
+    elem.style.opacity = 0;
+    window.requestAnimationFrame(function () {
+      // Now set a transition on the opacity
+      elem.style.transition = that.props.transition || 'opacity 1000ms';
+      // and set the opacity to 1
+      elem.style.opacity = 1;
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.children}
+      </div>
+    )
+  }
+}
+
+const RouteWithFade = ({ component: Component, transition, ...rest }) => (
+  <Route {...rest} render={(matchProps) => (
+    <FadeIn transition={transition}>
+      <Component {...matchProps} />
+    </FadeIn>
+  )} />
+)
+
 
 class App extends Component {
-
   constructor() {
     super();
 
     this.setCurrentUser = this.setCurrentUser.bind(this);
 
     this.state = {
-      dates: { },
-      useras: { },
-      userVoices: { },
+      dates: {},
+      useras: {},
+      userVoices: {},
       authenticated: false,
       currentUser: null,
       loading: true,
-      monthYear: '',
-
-    }
+      monthYear: ""
+    };
   }
 
   componentDidMount() {
-
-    this.datesRef = base.syncState('dates', {
+    this.datesRef = base.syncState("dates", {
       context: this,
-      state: 'dates',
+      state: "dates"
     });
 
-    this.usersRef = base.syncState('useras', {
+    this.usersRef = base.syncState("useras", {
       context: this,
-      state: 'useras',
+      state: "useras"
     });
 
-    this.userVoicesRef = base.syncState('userVoices', {
+    this.userVoicesRef = base.syncState("userVoices", {
       context: this,
-      state: 'userVoices',
-    })
+      state: "userVoices"
+    });
 
-
-    this.removeAuthListener = app.auth().onAuthStateChanged((user) => {
+    this.removeAuthListener = app.auth().onAuthStateChanged(user => {
       if (user) {
-
         this.state.currentUser = user;
 
         this.setState({
           currentUser: user,
-          authenticated: true,
-        })
-
+          authenticated: true
+        });
       } else {
-
         this.setState({
           currentUser: null,
-          authenticated: false,
-        })
-
+          authenticated: false
+        });
       }
-    })
+    });
   }
 
   componentWillUnmount() {
@@ -87,6 +132,9 @@ class App extends Component {
     base.removeBinding(this.userVoicesRef);
   }
 
+
+
+
   /**
    * onChangeToggle gets called every time the user clicks on the Toggle button.
    * The name of the user gets pushed into the names array and the numbers on the
@@ -94,8 +142,7 @@ class App extends Component {
    * gets updated as well.
    * @function
    */
-  onChangeToggle = (e) => {
-
+  onChangeToggle = e => {
     const name = this.state.currentUser.email.slice(0, -8);
     const id = e.target.id;
     const dates = { ...this.state.dates };
@@ -111,55 +158,58 @@ class App extends Component {
     const sortedDateObjKeys = sortIndividualDates(dateObjKeys);
     const date = sortedDateObjKeys[dateId];
 
-    let currSopran = dates[monthYear].individualdates[date].sopran
-    let currAlt = dates[monthYear].individualdates[date].alt
-    let currTenor = dates[monthYear].individualdates[date].tenor
-    let currBass = dates[monthYear].individualdates[date].bass
+    let currSopran = dates[monthYear].individualdates[date].sopran;
+    let currAlt = dates[monthYear].individualdates[date].alt;
+    let currTenor = dates[monthYear].individualdates[date].tenor;
+    let currBass = dates[monthYear].individualdates[date].bass;
 
     if (e.target.checked) {
       const i = dates[monthYear].individualdates[date].names.indexOf(name);
 
       if (i != -1) {
         dates[monthYear].individualdates[date].names.splice(i, 1);
-        switch(userVoice) {
-          case 'Sopran' :
+        switch (userVoice) {
+          case "Sopran":
             dates[monthYear].individualdates[date].sopran = ++currSopran;
             break;
-          case 'Alt' :
+          case "Alt":
             dates[monthYear].individualdates[date].alt = ++currAlt;
             break;
-          case 'Tenor' :
+          case "Tenor":
             dates[monthYear].individualdates[date].tenor = ++currTenor;
             break;
-          case 'Bass' :
+          case "Bass":
             dates[monthYear].individualdates[date].bass = ++currBass;
             break;
         }
-        this.state.useras[this.state.currentUser.uid].clickArr[checkArrId] = true;
+        this.state.useras[this.state.currentUser.uid].clickArr[
+          checkArrId
+        ] = true;
       }
     } else {
       dates[monthYear].individualdates[date].names.push(name);
-      switch(userVoice) {
-        case 'Sopran' :
+      switch (userVoice) {
+        case "Sopran":
           dates[monthYear].individualdates[date].sopran = --currSopran;
           break;
-        case 'Alt' :
+        case "Alt":
           dates[monthYear].individualdates[date].alt = --currAlt;
           break;
-        case 'Tenor' :
+        case "Tenor":
           dates[monthYear].individualdates[date].tenor = --currTenor;
           break;
-        case 'Bass' :
+        case "Bass":
           dates[monthYear].individualdates[date].bass = --currBass;
           break;
       }
-      this.state.useras[this.state.currentUser.uid].clickArr[checkArrId] = false;
+      this.state.useras[this.state.currentUser.uid].clickArr[
+        checkArrId
+      ] = false;
     }
     this.setState({ dates });
     this.setState({ useras });
     this.mainRenderer();
-  }
-
+  };
 
   /**
    * The mainRenderer function returns an object with all vertical panes by reading all
@@ -167,7 +217,7 @@ class App extends Component {
    * @function
    */
   mainRenderer = () => {
-    const dates = { ...this.state.dates }
+    const dates = { ...this.state.dates };
     const months = Object.keys(dates);
     let counter = 0;
 
@@ -175,7 +225,9 @@ class App extends Component {
     let verticalPanesArr = [];
 
     for (let i = 0; i < months.length; i++) {
-      const individualDatesUnsorted = Object.keys(dates[months[i]].individualdates);
+      const individualDatesUnsorted = Object.keys(
+        dates[months[i]].individualdates
+      );
       const individualDates = sortIndividualDates(individualDatesUnsorted);
       for (let j = 0; j < individualDates.length; j++) {
         let tempDate = individualDates[j];
@@ -184,94 +236,138 @@ class App extends Component {
         const tempYear = tempDate.slice(4);
         const tempDay = tempDate.slice(0, 2);
 
-        const stringDate = tempDay.toString() + '.' + tempMonth.toString() + '.' + tempYear.toString()
+        const stringDate =
+          tempDay.toString() +
+          "." +
+          tempMonth.toString() +
+          "." +
+          tempYear.toString();
 
-        const tempId = tempMonth.toString()  + j.toString() + counter.toString();
+        const tempId = tempMonth.toString() + j.toString() + counter.toString();
         const checkArrId = tempId.slice(3, tempId.length);
-        verticalPanesArr.push(this.renderVerticalPane(tempDate, stringDate, tempMonth, tempYear, tempId, checkArrId));
+        verticalPanesArr.push(
+          this.renderVerticalPane(
+            tempDate,
+            stringDate,
+            tempMonth,
+            tempYear,
+            tempId,
+            checkArrId
+          )
+        );
         counter++;
       }
       verticalPanesObj[months[i]] = verticalPanesArr;
       verticalPanesArr = [];
     }
     return verticalPanesObj;
-  }
+  };
 
   /**
    * The renderVerticalPane function constructs with given parameters
    * and returns exactly one vertical pane object.
    * @function
    */
-  renderVerticalPane = (currDate, currDateString, currMonth, currYear, currId, checkArrId) => {
+  renderVerticalPane = (
+    currDate,
+    currDateString,
+    currMonth,
+    currYear,
+    currId,
+    checkArrId
+  ) => {
     return {
-      menuItem:
+      menuItem: (
         <Menu.Item key={checkArrId}>
-          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <span style={{marginRight: '2em'}}>{currDateString}</span>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <span style={{ marginRight: "2em" }}>{currDateString}</span>
             <label>
               <Toggle
                 id={currId}
                 key={checkArrId}
-                checked={this.state.useras[this.state.currentUser.uid].clickArr[checkArrId]}
+                checked={
+                  this.state.useras[this.state.currentUser.uid].clickArr[
+                    checkArrId
+                  ]
+                }
                 onChange={this.onChangeToggle}
               />
             </label>
           </div>
-        </Menu.Item>,
-      render:
-        () =>
+        </Menu.Item>
+      ),
+      render: () => (
         <Tab.Pane>
           <TerminTable
             userVoices={this.state.userVoices}
-            names={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].names}
-            sopran={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].sopran}
-            alt={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].alt}
-            tenor={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].tenor}
-            bass={this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`].individualdates[currDate].bass}
+            names={
+              this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`]
+                .individualdates[currDate].names
+            }
+            sopran={
+              this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`]
+                .individualdates[currDate].sopran
+            }
+            alt={
+              this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`]
+                .individualdates[currDate].alt
+            }
+            tenor={
+              this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`]
+                .individualdates[currDate].tenor
+            }
+            bass={
+              this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`]
+                .individualdates[currDate].bass
+            }
           />
         </Tab.Pane>
-    }
-  }
+      )
+    };
+  };
 
   /**
    * The addTermin function does exactly what it says. It adds an appointment
    * to the calendar view with the date taken from the NewTerminForm.
    * @function
    */
-  addTermin = (date) => {
-      const dates = { ...this.state.dates };
-      const yyyy = date.slice(0, -6);
-      const mm = date.slice(5, 7);
-      const dd = date.slice(-2);
+  addTermin = date => {
+    const dates = { ...this.state.dates };
+    const yyyy = date.slice(0, -6);
+    const mm = date.slice(5, 7);
+    const dd = date.slice(-2);
 
-      const formattedMonthYear = `${monthToString(mm - 1)} ${yyyy}`;
-      const formattedDate = `${dd}${mm}${yyyy}`;
+    const formattedMonthYear = `${monthToString(mm - 1)} ${yyyy}`;
+    const formattedDate = `${dd}${mm}${yyyy}`;
 
-
-      if (dates.hasOwnProperty(formattedMonthYear)) {
-        dates[formattedMonthYear].individualdates[formattedDate] = {
-          names: [''],
-          sopran: '6',
-          alt: '8',
-          tenor: '5',
-          bass: '5'
-        }
-      } else {
-        dates[formattedMonthYear] = {
-          individualdates : {
-
-          }
-        }
-        dates[formattedMonthYear].individualdates[formattedDate] = {
-          names: [''],
-          sopran: '6',
-          alt: '8',
-          tenor: '5',
-          bass: '5'
-        }
-      }
-      this.setState({ dates });
+    if (dates.hasOwnProperty(formattedMonthYear)) {
+      dates[formattedMonthYear].individualdates[formattedDate] = {
+        names: [""],
+        sopran: "6",
+        alt: "8",
+        tenor: "5",
+        bass: "5"
+      };
+    } else {
+      dates[formattedMonthYear] = {
+        individualdates: {}
+      };
+      dates[formattedMonthYear].individualdates[formattedDate] = {
+        names: [""],
+        sopran: "6",
+        alt: "8",
+        tenor: "5",
+        bass: "5"
+      };
     }
+    this.setState({ dates });
+  };
 
   /**
    * The addUser function adds a user to the database.
@@ -383,115 +479,130 @@ class App extends Component {
         100: true,
         101: true,
         102: true,
-        103: true,
+        103: true
       }
-    }
+    };
     this.setState({ useras });
-  }
+  };
 
   /**
    * The setCurrent user sets the currentUser and the authenticated status.
    * @function
    */
-  setCurrentUser = (user) => {
+  setCurrentUser = user => {
     if (user) {
       this.setState({
         currentUser: user,
-        authenticated: true,
-      })
+        authenticated: true
+      });
     } else {
       this.setState({
         currentUser: null,
         authenticated: false
-      })
+      });
     }
-  }
+  };
 
   /**
    * The toggleView function gets called when the logOut button is
    * is clicked
    */
   toggleView = () => {
-    if (this.state.authenticated){
-      this.setState(
-        {authenticated: false}
-      )
+    if (this.state.authenticated) {
+      this.setState({ authenticated: false });
     } else {
-      return (
-        <Redirect to='/' />
-      );
+      return <Redirect to="/" />;
     }
-  }
+  };
   /**
    * This function set
    */
-  receiveMonth = (monthYear) => {
+  receiveMonth = monthYear => {
     this.setState({ monthYear });
-  }
-
+  };
 
   render() {
-
     const { loading, authenticated, currentUser } = this.state;
 
     if (loading) {
       if (!isEmpty(this.state.useras)) {
-        this.setState({ loading: false })
+        this.setState({ loading: false });
       }
 
       return (
-        <div style={{ textAlign: 'center', position: 'absolute', top: '25%', left: '50%' }}>
+        <div
+          style={{
+            textAlign: "center",
+            position: "absolute",
+            top: "25%",
+            left: "50%"
+          }}
+        >
           <Dimmer active inverted>
             <Loader content="Lädt..." />
           </Dimmer>
         </div>
-      )
+      );
     }
 
     return (
       <div>
-          <BrowserRouter>
-              <div>
-                <TopNav authenticated={authenticated} currentUser={currentUser} onClick={this.toggleView} addTermin={this.addTermin} buttonOnClick={this.addUser}  />
-                  <div className="ui container" style={{ marginTop: '3em' }}>
-                    <Route exact path="/" render={(props) => {
-                      console.log(authenticated + 'THIS SHOULD WORK!!');
-                      if (authenticated) {
-                        console.log('The authenticated has changed ' + authenticated)
-                        return (
-                          <MainView
-                            verticalPanes = {this.mainRenderer()}
-                            currMonth = {currDate.getMonth()}
-                            currYear = {currDate.getFullYear()}
-                            sendMonth = {this.receiveMonth}
-                            onClick = {this.incrementBass}
-                          />
-                        )
-                      } else {
-                        return (
-                          <Redirect to='/login' />
-                        );
-                      }
-                    }} />
-                    <Route path = "/teilnehmer" render={(props) => {
-                      if (authenticated) {
-                        return (
-                          <Teilnehmer />
-                        )
-                      } else {
-                        return (
-                          <Redirect to='/login' />
-                        )
-                      }
-                    }}/>
-                    <Route path = "/help" component={Help} />
-                    <Route path = "/login" render={(props) => {
-                      return <Login setCurrentUser={this.setCurrentUser} {...props} />
-                    }} />
-                    <Route path = "/logout" component={Logout} />
-                  </div>
-              </div>
-          </BrowserRouter>
+        <BrowserRouter>
+          <div>
+            <TopNav
+              authenticated={authenticated}
+              currentUser={currentUser}
+              onClick={this.toggleView}
+              addTermin={this.addTermin}
+              buttonOnClick={this.addUser}
+            />
+            <div className="ui container" style={{ marginTop: "3em" }}>
+              <Route
+                exact
+                path="/"
+                render={props => {
+                  console.log(authenticated + "THIS SHOULD WORK!!");
+                  if (authenticated) {
+                    console.log(
+                      "The authenticated has changed " + authenticated
+                    );
+                    return (
+                      <MainView
+                        verticalPanes={this.mainRenderer()}
+                        currMonth={currDate.getMonth()}
+                        currYear={currDate.getFullYear()}
+                        sendMonth={this.receiveMonth}
+                        onClick={this.incrementBass}
+                      />
+                    );
+                  } else {
+                    return <Redirect to="/login" />;
+                  }
+                }}
+              />
+              <Route
+                path="/teilnehmer"
+                render={props => {
+                  if (authenticated) {
+                    return <Teilnehmer />;
+                  } else {
+                    return <Redirect to="/login" />;
+                  }
+                }}
+              />
+              <RouteWithFade path="/help" component={Help} />
+              <Route
+                path="/login"
+                render={props => {
+                  return (
+                    <Login setCurrentUser={this.setCurrentUser} {...props} />
+                  );
+                }}
+              />
+              <RouteWithFade path="/logout" component={Logout} />
+            </div>
+          </div>
+        </BrowserRouter>
       </div>
     );
   }

@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
-import { Button, Container, Tab, Radio, Menu } from 'semantic-ui-react';
-import Toggle from 'react-toggle';
+import React, { Component } from "react";
+import { Button, Container, Tab, Radio, Menu } from "semantic-ui-react";
+import Toggle from "react-toggle";
 
-import HeaderView from './Header.js';
-import TerminTable from './TerminTable.js';
-import '../styles/ToggleButton.css';
+import HeaderView from "./Header.js";
+import TerminTable from "./TerminTable.js";
+import "../styles/ToggleButton.css";
 
-import { monthToString } from '../helperFunctions.js';
+import FadeTransition from '../animations/FadeTransition.js';
+import TransitionGroup from "react-transition-group/TransitionGroup";
 
+import { monthToString } from "../helperFunctions.js";
 
 class MainView extends Component {
   constructor(props) {
@@ -15,14 +17,13 @@ class MainView extends Component {
     this.state = {
       currMonth: props.currMonth,
       currYear: props.currYear,
-      userNames: [],
+      userNames: []
     };
-
-  };
+  }
 
   getMonthYear = () => {
-    return `${monthToString(this.state.currMonth)} ${this.state.currYear}`
-  }
+    return `${monthToString(this.state.currMonth)} ${this.state.currYear}`;
+  };
 
   componentWillMount() {
     this.formatMonthYear();
@@ -30,25 +31,28 @@ class MainView extends Component {
 
   /* This function changes the current month to the previous month */
   prevMonth = () => {
-
     const tempDate = new Date(this.state.currYear, this.state.currMonth - 1);
 
-    this.setState({
-      currMonth: tempDate.getMonth(),
-      currYear: tempDate.getFullYear(),
-    }, () => this.formatMonthYear());
+    this.setState(
+      {
+        currMonth: tempDate.getMonth(),
+        currYear: tempDate.getFullYear()
+      },
+      () => this.formatMonthYear()
+    );
   };
 
   /* This function changes the current month to the next month */
   nextMonth = () => {
-
     const tempDate = new Date(this.state.currYear, this.state.currMonth + 1);
 
-    this.setState({
-      currMonth: tempDate.getMonth(),
-      currYear: tempDate.getFullYear(),
-    }, () => this.formatMonthYear());
-
+    this.setState(
+      {
+        currMonth: tempDate.getMonth(),
+        currYear: tempDate.getFullYear()
+      },
+      () => this.formatMonthYear()
+    );
   };
 
   /**
@@ -57,24 +61,46 @@ class MainView extends Component {
    */
   formatMonthYear = () => {
     this.props.sendMonth(this.getMonthYear());
-  }
-
+  };
 
   render() {
     return (
       <div>
-
-        <Container textAlign='center' style={{ marginBottom: '3em', marginTop: '3em' }} >
+        <Container
+          textAlign="center"
+          style={{ marginBottom: "3em", marginTop: "3em" }}
+        >
           <Button.Group basic>
-            <Button labelPosition='left' icon='left chevron' content='Letzter Monat' onClick={this.prevMonth} />
-            <Button onClick={this.props.onClick} style={{ fontSize: '23px', fontWeight: '900', cursor: 'auto', minWidth: '250px' }}
-            content={this.getMonthYear()} />
-            <Button labelPosition='right' icon='right chevron' content='Nächster Monat' onClick={this.nextMonth} />
+            <Button
+              labelPosition="left"
+              icon="left chevron"
+              content="Letzter Monat"
+              onClick={this.prevMonth}
+            />
+            <Button
+              onClick={this.props.onClick}
+              style={{
+                fontSize: "23px",
+                fontWeight: "900",
+                cursor: "auto",
+                minWidth: "250px"
+              }}
+              content={this.getMonthYear()}
+            />
+            <Button
+              labelPosition="right"
+              icon="right chevron"
+              content="Nächster Monat"
+              onClick={this.nextMonth}
+            />
           </Button.Group>
+
         </Container>
 
-        <Tab menu={{ fluid: true, vertical: true, tabular: 'left' }} panes={this.props.verticalPanes[this.getMonthYear()]} />
-
+        <Tab
+          menu={{ fluid: true, vertical: true, tabular: "left" }}
+          panes={this.props.verticalPanes[this.getMonthYear()]}
+        />
       </div>
     );
   }

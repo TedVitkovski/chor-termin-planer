@@ -12,41 +12,6 @@ class TerminTable extends Component {
     }
   }
 
-  /*userVoiceToColumns = (userVoice, counter) => {
-    switch(userVoice) {
-      case 'Sopran' :
-        return (
-          <Table.Row>
-            <Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
-          </Table.Row>
-        );
-      case 'Alt' :
-        return (
-            <Table.Row>
-              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
-              <Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
-            </Table.Row>
-          );
-      case 'Tenor' :
-        return (
-            <Table.Row>
-              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
-              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
-              <Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
-            </Table.Row>
-          );
-      case 'Bass' :
-        return (
-            <Table.Row>
-              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
-              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
-              <Table.Cell style={{textDecoration: "line-through"}}></Table.Cell>
-              <Table.Cell style={{textDecoration: "line-through"}}>{this.capitalizeName(this.props.names[counter]).slice(0, -1)}</Table.Cell>
-            </Table.Row>
-          );
-    }
-  } */
-
   componentWillMount() {
   }
 
@@ -60,12 +25,10 @@ class TerminTable extends Component {
     const alts = [];
     const tenors = [];
     const basses = [];
-    console.log('Names before the for loop');
-    console.log(this.props.names);
+
     for (let i = 0; i < this.props.names.length; i++) {
       let userName = this.props.names[i];
-      console.log('userName inside the for loop');
-      console.log(userName);
+
       let userRealName = this.capitalizeName(userName.slice(0, -1));
       let userVoice = this.props.userVoices[userName];
       switch (userVoice) {
@@ -97,19 +60,7 @@ class TerminTable extends Component {
 
 
   render() {
-    /*
-    const rows = [];
-    for (let i = 0; i < this.props.names.length; i++) {
-      let userName = this.props.names[i];
-      console.log(userName);
-      let userVoice = this.props.userVoices[userName];
-      let userColumns = this.userVoiceToColumns(userVoice, i);
-      rows.push(userColumns);
-    }*/
     const users = this.createVoicesToNames();
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
-    console.log(users);
-    console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
 
     return (
       <Table color='orange' size='large' celled padded='normal' textAlign="center" columns={4}>
