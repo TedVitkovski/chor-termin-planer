@@ -16,12 +16,15 @@ abzumelden!
 
 ### Anmeldung
 
-Um sich auf der Seite anzumelden, brauchen Sie lediglich einen Login und Password, die Sie zugewiesen
+Um sich auf der Seite anzumelden, brauchen Sie lediglich einen Login und Passwort, die Sie zugewiesen
 bekommen solltet.
+
+Falls Sie ihren Passwort **vergessen** haben solltet, schreibt bitte eine E-Mail mit Ihrem Benutzernamen an die folgende E-Mail Adresse:
+<fvitkovski@mail.de>
 
   ---
   **Vorsicht:**
-  Bei dem Password handelt es sich **nicht** um eine E-Mail Adresse, wie es die Fehlermeldung
+  Bei dem Login (Benutzernamen) handelt es sich **nicht** um eine E-Mail Adresse, wie es die Fehlermeldung
   suggerieren könnte!
 
   ---
@@ -29,7 +32,6 @@ bekommen solltet.
 ### Das Bedienen des Kalenders
 
 Um zwischen Monaten hin und herzuschalten klicken Sie auf die oben platzierten Pfeile.
-
 ![](${monthswitcher})
 
 ### Das Abmelden von einer Veranstaltung
