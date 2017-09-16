@@ -19,7 +19,7 @@ abzumelden!
 Um sich auf der Seite anzumelden, brauchen Sie lediglich einen Login und Passwort, die Sie zugewiesen
 bekommen solltet.
 
-Falls Sie ihren Passwort **vergessen** haben solltet, schreibt bitte eine E-Mail mit Ihrem Benutzernamen an die folgende E-Mail Adresse:
+Falls Sie ihren Passwort **vergessen** haben sollten, schreibt bitte eine E-Mail mit Ihrem Benutzernamen an die folgende E-Mail Adresse:
 <fvitkovski@mail.de>
 
   ---
