@@ -22,6 +22,10 @@ class TopNav extends Component {
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
+  admin = () => {
+    return this.props.currentUser.uid === 'mI6P1uHeUufZ7zwOpMs69Kd7n0r1';
+  }
+
 
   render() {
 
@@ -39,7 +43,7 @@ class TopNav extends Component {
 
                     <Menu.Item name='terminplaner' as={ Link } to='/' active={ activeItem === 'terminkalender' } onClick={this.handleItemClick} />
                     <Menu.Item name='teilnehmer' as={ Link } to='/teilnehmer' active={ activeItem === 'teilnehmer' } onClick={this.handleItemClick} />
-
+                    {this.admin() &&
                     <Popup
                       trigger={<Menu.Item className='terminErstellen' name='termin erstellen' style={{height: '65px'}} active={ activeItem === 'termin erstellen' } />}
                       flowing
@@ -54,7 +58,7 @@ class TopNav extends Component {
                         postSubmitHandler={this.closePopover}
                         onClick={this.props.buttonOnClick}
                       />
-                    </Popup>
+                    </Popup>}
 
                     <Menu.Menu position='right'>
                       {/*<Menu.Item
