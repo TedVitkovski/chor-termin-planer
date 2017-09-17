@@ -16,10 +16,10 @@ abzumelden!
 
 ### Anmeldung
 
-Um sich auf der Seite anzumelden, brauchen Sie lediglich einen Login und Passwort, die Sie zugewiesen
+Um sich auf der Seite anzumelden, brauchen Sie lediglich einen Login und ein Passwort, die Sie zugewiesen
 bekommen sollten.
 
-Falls Sie ihren Passwort **vergessen** haben sollten, schreibt bitte eine E-Mail mit Ihrem Benutzernamen an die folgende E-Mail Adresse:
+Falls Sie ihr Passwort **vergessen** haben sollten, schreiben Sie bitte eine E-Mail mit Ihrem Benutzernamen an die folgende E-Mail Adresse:
 <fvitkovski@mail.de>
 
   ---
@@ -36,8 +36,8 @@ Um zwischen Monaten hin und herzuschalten klicken Sie auf die oben platzierten P
 
 ### Das Abmelden von einer Veranstaltung
 
-Um sich von einer Veranstaltung erfolgreich abzumelden brauchen Sie nur auf den
-Knopf ![Grüner Knopf](${toggle}) zu klicken und schon sind sie abgemeldet, das erkennen Sie an ihrem Namen, der
+Um sich von einer Veranstaltung erfolgreich abzumelden, brauchen Sie nur auf den
+Knopf ![Grüner Knopf](${toggle}) zu klicken und schon sind Sie abgemeldet, das erkennen Sie an Ihrem Namen, der
 in der Tabelle daneben durchgestrichen ![](${crossedname}) erscheint.
 
 ### Die Zahlen unter der Tabelle
@@ -46,7 +46,7 @@ Diese Zahlen zeigen an, wie viele Teilnehmer zur Veranstaltung angemeldet sind.
 
 ### Abmeldung
 
-Um sich von der Seite abzumelden, drücken Sie den sich in der oben rechten befindenden
+Um sich von der Seite abzumelden, drücken Sie den sich in der rechten oberen Ecke befindenden
 Knopf ![](${signout}) auf dem das Wort "Abmelden" steht.
 
 `.trim();
