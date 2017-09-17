@@ -1,0 +1,14 @@
+.main {
+  min-height: 100%;
+  padding-bottom: 120px;
+  box-sizing: border-box;
+}
+
+.footer {
+  background-color: rgba(23, 23, 23, 0.05);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: 15px 30px;
+  text-align: center;
+}

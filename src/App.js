@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 
+import {TweenLite} from 'gsap';
+
+import {TransitionSwitch} from 'react-router-v4-transition';
+
 import {
   Button,
   Loader,
@@ -41,39 +45,45 @@ import { app, base } from "./base";
 
 const currDate = new Date();
 
-class FadeIn extends Component {
+let d = 0.4;
+class Transition extends Component {
 
-  componentDidMount() {
-    var that = this;
-    // Get the components DOM node
-    var elem = ReactDOM.findDOMNode(that);
-    // Set the opacity of the element to 0
-    elem.style.opacity = 0;
-    window.requestAnimationFrame(function () {
-      // Now set a transition on the opacity
-      elem.style.transition = that.props.transition || 'opacity 1000ms';
-      // and set the opacity to 1
-      elem.style.opacity = 1;
-    });
-  }
+    constructor(props) {
+        super(props);
+    }
 
-  render() {
-    return (
-      <div>
-        {this.props.children}
-      </div>
-    )
-  }
+    componentWillAppear(cb) {
+        TweenLite.fromTo(ReactDOM.findDOMNode(this), d, {opacity: 0}, {opacity:1, onComplete: () => cb()});
+    }
+
+    // componentDidAppear() {
+    //     //do stuff on appear
+    // }
+
+    componentWillEnter(cb) {
+        TweenLite.fromTo(ReactDOM.findDOMNode(this), d, {opacity: 0}, {opacity:1, onComplete: () => cb()});
+    }
+
+    componentDidEnter() {
+        //do stuff on enter
+    }
+
+    componentWillLeave(cb) {
+        // if(this.mounted)
+            TweenLite.to(ReactDOM.findDOMNode(this), d, {opacity:0, onComplete: () => cb()});
+    }
+
+    componentDidLeave() {
+        //do stuff on leave
+    }
+
+    render() {
+        return (
+            <div>{this.props.children}</div>
+        );
+    }
+
 }
-
-const RouteWithFade = ({ component: Component, transition, ...rest }) => (
-  <Route {...rest} render={(matchProps) => (
-    <FadeIn transition={transition}>
-      <Component {...matchProps} />
-    </FadeIn>
-  )} />
-)
-
 
 class App extends Component {
   constructor() {
@@ -548,7 +558,7 @@ class App extends Component {
     return (
       <div>
         <BrowserRouter>
-          <div>
+          <div className="main">
             <TopNav
               authenticated={authenticated}
               currentUser={currentUser}
@@ -557,49 +567,56 @@ class App extends Component {
               buttonOnClick={this.addUser}
             />
             <div className="ui container" style={{ marginTop: "3em" }}>
-              <Route
-                exact
-                path="/"
-                render={props => {
-                  console.log(authenticated + "THIS SHOULD WORK!!");
-                  if (authenticated) {
-                    console.log(
-                      "The authenticated has changed " + authenticated
-                    );
+              <TransitionSwitch parallel={false}>
+                <Route
+                  exact
+                  path="/"
+                  render={props => {
+                    if (authenticated) {
+                      return (
+                        <Transition>
+                          <MainView
+                            verticalPanes={this.mainRenderer()}
+                            currMonth={currDate.getMonth()}
+                            currYear={currDate.getFullYear()}
+                            sendMonth={this.receiveMonth}
+                          />
+                        </Transition>
+                      );
+                    } else {
+                      return <Transition><Redirect to="/login" /></Transition>;
+                    }
+                  }}
+                />
+                <Route
+                  path="/teilnehmer"
+                  render={props => {
+                    if (authenticated) {
+                      return <Transition><Teilnehmer /></Transition>;
+                    } else {
+                      return <Transition><Redirect to="/login" /></Transition>;
+                    }
+                  }}
+                />
+                <Route path="/help">
+                  <Transition>
+                    <Help />
+                  </Transition>
+                </Route>
+                <Route
+                  path="/login"
+                  render={props => {
                     return (
-                      <MainView
-                        verticalPanes={this.mainRenderer()}
-                        currMonth={currDate.getMonth()}
-                        currYear={currDate.getFullYear()}
-                        sendMonth={this.receiveMonth}
-                        onClick={this.incrementBass}
-                      />
+                      <Transition><Login setCurrentUser={this.setCurrentUser} {...props} /></Transition>
                     );
-                  } else {
-                    return <Redirect to="/login" />;
-                  }
-                }}
-              />
-              <Route
-                path="/teilnehmer"
-                render={props => {
-                  if (authenticated) {
-                    return <Teilnehmer />;
-                  } else {
-                    return <Redirect to="/login" />;
-                  }
-                }}
-              />
-              <RouteWithFade path="/help" component={Help} />
-              <Route
-                path="/login"
-                render={props => {
-                  return (
-                    <Login setCurrentUser={this.setCurrentUser} {...props} />
-                  );
-                }}
-              />
-              <RouteWithFade path="/logout" component={Logout} />
+                  }}
+                />
+                <Route path="/logout">
+                  <Transition>
+                    <Logout />
+                  </Transition>
+                </Route>
+              </TransitionSwitch>
             </div>
           </div>
         </BrowserRouter>

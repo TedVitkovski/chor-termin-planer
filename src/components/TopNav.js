@@ -52,10 +52,16 @@ class TopNav extends Component {
                       <NewTerminForm
                         addTermin={this.props.addTermin}
                         postSubmitHandler={this.closePopover}
+                        onClick={this.props.buttonOnClick}
                       />
                     </Popup>
 
                     <Menu.Menu position='right'>
+                      <Menu.Item
+                        name='addnutzer'
+                        active={ activeItem === 'addnutzer' }
+                        onClick={this.props.buttonOnClick}
+                      />
                       <Menu.Item>
                         <p>Eingeloggt als: <span style={{fontWeight: '700'}}>{this.props.currentUser.email.slice(0, -8)}</span></p>
                       </Menu.Item>

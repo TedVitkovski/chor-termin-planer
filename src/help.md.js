@@ -1,4 +1,4 @@
-import toggle from './img/toggle.JPG';
+  import toggle from './img/toggle.JPG';
 import crossedname from './img/crossedname.JPG';
 import signout from './img/signout.JPG';
 import monthswitcher from './img/monthswitcher.JPG';
@@ -17,7 +17,7 @@ abzumelden!
 ### Anmeldung
 
 Um sich auf der Seite anzumelden, brauchen Sie lediglich einen Login und Passwort, die Sie zugewiesen
-bekommen solltet.
+bekommen sollten.
 
 Falls Sie ihren Passwort **vergessen** haben sollten, schreibt bitte eine E-Mail mit Ihrem Benutzernamen an die folgende E-Mail Adresse:
 <fvitkovski@mail.de>
