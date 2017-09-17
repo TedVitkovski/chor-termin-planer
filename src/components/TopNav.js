@@ -57,11 +57,11 @@ class TopNav extends Component {
                     </Popup>
 
                     <Menu.Menu position='right'>
-                      <Menu.Item
+                      {/*<Menu.Item
                         name='addnutzer'
                         active={ activeItem === 'addnutzer' }
                         onClick={this.props.buttonOnClick}
-                      />
+                      />*/}
                       <Menu.Item>
                         <p>Eingeloggt als: <span style={{fontWeight: '700'}}>{this.props.currentUser.email.slice(0, -8)}</span></p>
                       </Menu.Item>

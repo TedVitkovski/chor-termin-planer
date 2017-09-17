@@ -359,10 +359,10 @@ class App extends Component {
     if (dates.hasOwnProperty(formattedMonthYear)) {
       dates[formattedMonthYear].individualdates[formattedDate] = {
         names: [""],
-        sopran: "6",
-        alt: "8",
-        tenor: "5",
-        bass: "5"
+        sopran: "8",
+        alt: "7",
+        tenor: "3",
+        bass: "3"
       };
     } else {
       dates[formattedMonthYear] = {
@@ -370,10 +370,10 @@ class App extends Component {
       };
       dates[formattedMonthYear].individualdates[formattedDate] = {
         names: [""],
-        sopran: "6",
-        alt: "8",
-        tenor: "5",
-        bass: "5"
+        sopran: "8",
+        alt: "7",
+        tenor: "3",
+        bass: "3"
       };
     }
     this.setState({ dates });
