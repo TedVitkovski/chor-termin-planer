@@ -322,7 +322,8 @@ class App extends Component {
       render: () => (
         <Tab.Pane>
           <TerminTable
-            userVoices={this.state.userVoices}
+            userVoices={this.state.userVoices
+            teilnehmer={this.state.teilnehmer}
             names={
               this.state.dates[`${monthToString(currMonth - 1)} ${currYear}`]
                 .individualdates[currDate].names
