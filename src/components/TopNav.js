@@ -41,7 +41,7 @@ class TopNav extends Component {
                       </Menu.Item>
                     </Menu.Menu>
 
-                    <Menu.Item name='terminplaner' as={ Link } to='/' active={ activeItem === 'terminkalender' } onClick={this.handleItemClick} />
+                    <Menu.Item name='terminplaner' as={ Link } to='/' active={ activeItem === 'terminplaner' } onClick={this.handleItemClick} />
                     <Menu.Item name='teilnehmer' as={ Link } to='/teilnehmer' active={ activeItem === 'teilnehmer' } onClick={this.handleItemClick} />
                     {this.admin() &&
                     <Popup
