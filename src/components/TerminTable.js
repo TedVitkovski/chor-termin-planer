@@ -12,9 +12,6 @@ class TerminTable extends Component {
     }
   }
 
-  componentWillMount() {
-  }
-
   capitalizeName(name) {
     return name.charAt(0).toUpperCase() + name.slice(1);
   }
@@ -78,7 +75,7 @@ class TerminTable extends Component {
           <DynamicTableRow users={users} rowNumber={1}/>
           <DynamicTableRow users={users} rowNumber={2}/>
           <DynamicTableRow users={users} rowNumber={3}/>
-          <DynamicTableRow users={users} rowNumber={3}/>
+          <DynamicTableRow users={users} rowNumber={4}/>
         </Table.Body>
         <Table.Footer>
           <Table.Row>

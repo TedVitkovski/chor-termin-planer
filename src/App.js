@@ -95,6 +95,7 @@ class App extends Component {
       dates: {},
       useras: {},
       userVoices: {},
+      teilnehmer: {},
       authenticated: false,
       currentUser: null,
       loading: true,
@@ -118,6 +119,11 @@ class App extends Component {
       state: "userVoices"
     });
 
+    this.teilnehmerRef = base.syncState("teilnehmer", {
+      context: this,
+      state: "teilnehmer"
+    })
+
     this.removeAuthListener = app.auth().onAuthStateChanged(user => {
       if (user) {
         this.state.currentUser = user;
@@ -137,6 +143,7 @@ class App extends Component {
 
   componentWillUnmount() {
     this.removeAuthListener();
+    base.removeBinding(this.teilnehmerRef)
     base.removeBinding(this.datesRef);
     base.removeBinding(this.usersRef);
     base.removeBinding(this.userVoicesRef);
@@ -380,6 +387,31 @@ class App extends Component {
   };
 
   /**
+   * The addTeilnehmer function does exactly what it says. It adds an appointment
+   * to the calendar view with the date taken from the NewTerminForm.
+   * @function
+   */
+  addTeilnehmer = () => {
+
+    const teilnehmer = { ...this.state.teilnehmer };
+    const namen = ['Jachmann', 'Kirste', 'Loth', 'Pohl', 'Zöllner', 'Schade', 'Matthäus', 'Rück', 'Brüggermann', 'Dr. Plass', 'Herrmann', 'Papadopoulos', 'Reither', 'Scharfe', 'Ohm', 'Wittkowsky', 'Abel', 'Butszies', 'Härter', 'Hoffmann', 'Teasdale', 'Weigt', 'Weser'];
+    const vornamen = ['Juliane', 'Sabine', 'Gerlinde', 'Heide', 'Anne', 'Marianne', 'Laura', 'Kressen', 'Kerstin', 'Renate', 'Angelika', 'Jördis', 'Annelore', 'Barbara', 'Agnes', 'Maria', 'Martin', 'Lothar', 'Sebastian', 'Claas', 'Hadrian', 'Christof', 'Rainer'];
+    const emails = ['juianejachmann@yahoo.de', 'gartenzwerge@hotmail.com', 'manne.Loth@gmx.de', 'heide-pohl@gmx.de', 'gf@pro-gemeinsinn.de', 'Struehn@gmail.com', 'Laumatth@gmx.net', 'rueck.kressen@gmail.com', 'fam.brueggemann@outlook.de', '', 'herrmanngela@web.de', 'joerdis.papadopoulos@web.de', 'a.reither@mailbox.org', 'barbara.scharfe13@gmail.com', 'agnesohm@web.de', 'vad265@yandex.ru', 'abel.martin@t-online.de', '', 'se.h@posteo.de', 'Claasvommars@yahoo.com', 'hadrian.teasdale@gmx.de', 'christof-weigt@web.de', 'weser-schuhe@arcor.de'];
+    const phones = ['030 / 394 54 21, 0159-02252608','0172 770 13 71', '030 / 656 36 34', '0176 47 38 31 25', '0151 16 25 30 29', '030 / 92 15 72 26', '030/ 22 43 84 70', '0176 66680246', '030 / 442 26 61', '030 / 445 67 49', '033362 / 71 92 05', '030 / 68 08 13 59', '0170 492 8033, 030/46726739', '0151 50 45 36 87', '0179 450 55 69', '0176 20781209', '030 / 86318383,  0151 27668291', '030 / 282 05 46', '0163 2002291', '0176 57 38 45 35', '0176 52 45 22 53', '0152 29 77 89 01', '030 / 414 46 83']
+
+    for (let i = 0; i < namen.length; i++) {
+      teilnehmer[i] = {
+        name: namen[i],
+        vorname: vornamen[i],
+        email: emails[i],
+        phone: phones[i]
+      }
+    }
+
+    this.setState({ teilnehmer });
+  };
+
+  /**
    * The addUser function adds a user to the database.
    * @function
    */
@@ -564,7 +596,7 @@ class App extends Component {
               currentUser={currentUser}
               onClick={this.toggleView}
               addTermin={this.addTermin}
-              buttonOnClick={this.addUser}
+              buttonOnClick={this.addTeilnehmer}
             />
             <div className="ui container" style={{ marginTop: "3em" }}>
               <TransitionSwitch parallel={false}>
@@ -592,7 +624,7 @@ class App extends Component {
                   path="/teilnehmer"
                   render={props => {
                     if (authenticated) {
-                      return <Transition><Teilnehmer /></Transition>;
+                      return <Transition><Teilnehmer teilnehmer={this.state.teilnehmer} /></Transition>;
                     } else {
                       return <Transition><Redirect to="/login" /></Transition>;
                     }
