@@ -552,7 +552,7 @@ class App extends Component {
    */
   toggleView = () => {
     if (this.state.authenticated) {
-      this.setState({ authenticated: false });
+      this.state.authenticated = false;
     } else {
       return <Redirect to="/" />;
     }

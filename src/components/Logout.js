@@ -12,8 +12,10 @@ class Logout extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
+	console.log('Logout is mounted!');
     app.auth().signOut().then((user) => {
+	  console.log('SIGNED OUT!!!!!!!!!!')
       this.setState({ redirect: true })
     });
   }
