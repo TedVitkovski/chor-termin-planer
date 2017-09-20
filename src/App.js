@@ -163,8 +163,10 @@ class App extends Component {
 
     const dateId = id.slice(2, 3);
     const checkArrId = id.slice(3, id.length);
+	
+	const dateObj = Object.keys(dates[monthYear]).map(e => dates[monthYear][e])[0];
 
-    const dateObj = Object.values(dates[monthYear])[0];
+    /*const dateObj = Object.values(dates[monthYear])[0];*/
     const dateObjKeys = Object.keys(dateObj);
     const sortedDateObjKeys = sortIndividualDates(dateObjKeys);
     const date = sortedDateObjKeys[dateId];
