@@ -1,14 +1,27 @@
 import React, { Component } from "react";
 import { Table } from "semantic-ui-react";
 
+import { base } from "../base";
+
 import DynamicTableRow from "./DynamicTableRow.js";
 
 class TerminTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: {}
+      teilnehmer: {}
     };
+  }
+  
+  componentDidMount() {
+	  this.teilnehmerRef = base.syncState("teilnehmer", {
+	  context: this,
+	  state: "teilnehmer"
+    })
+  }
+  
+  componentWillUnmount() {
+	  base.removeBinding(this.teilnehmerRef);
   }
 
   capitalizeName(name) {
@@ -23,11 +36,11 @@ class TerminTable extends Component {
     const basses = [];
 
     for (let i = 0; i < this.props.names.length; i++) {
-      for (let j = 0; j < this.props.teilnehmer.length; j++) {
+      for (let j = 0; j < this.state.teilnehmer.length; j++) {
         let userName = this.props.names[i];
         let userRealName = this.capitalizeName(userName.slice(0, -1));
-        if (this.props.teilnehmer[j]["vorname"] === userRealName) {
-          let nachname = this.props.teilnehmer[j]["name"];
+        if (this.state.teilnehmer[j]["vorname"] === userRealName) {
+          let nachname = this.state.teilnehmer[j]["name"];
           let userFullName = userRealName + " " + nachname;
           let userVoice = this.props.userVoices[userName];
           switch (userVoice) {

@@ -2,19 +2,40 @@ import React, { Component } from 'react';
 
 import { Table } from 'semantic-ui-react';
 
+import { base } from "../base";
+
 
 
 class Teilnehmer extends Component {
+	
+  constructor() {
+	  super();
+	  
+	  this.state = {
+		  teilnehmer: {}
+	  }
+  }
+  
+  componentDidMount() {
+	  this.teilnehmerRef = base.syncState("teilnehmer", {
+	  context: this,
+	  state: "teilnehmer"
+    })
+  }
+  
+  componentWillUnmount() {
+	  base.removeBinding(this.teilnehmerRef);
+  }
 
   printTeilnehmer = () => {
-    console.log(this.props.teilnehmer[0]);
-    const newObject = Object.keys(this.props.teilnehmer).map((key, index) =>
+    console.log(this.state.teilnehmer[0]);
+    const newObject = Object.keys(this.state.teilnehmer).map((key, index) =>
       (
         <Table.Row key={index}>
-          <Table.Cell>{this.props.teilnehmer[index]['name']}</Table.Cell>
-          <Table.Cell>{this.props.teilnehmer[index]['vorname']}</Table.Cell>
-          <Table.Cell>{this.props.teilnehmer[index]['email']}</Table.Cell>
-          <Table.Cell>{this.props.teilnehmer[index]['phone']}</Table.Cell>
+          <Table.Cell>{this.state.teilnehmer[index]['name']}</Table.Cell>
+          <Table.Cell>{this.state.teilnehmer[index]['vorname']}</Table.Cell>
+          <Table.Cell>{this.state.teilnehmer[index]['email']}</Table.Cell>
+          <Table.Cell>{this.state.teilnehmer[index]['phone']}</Table.Cell>
         </Table.Row>
       )
     )

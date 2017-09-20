@@ -95,7 +95,6 @@ class App extends Component {
       dates: {},
       useras: {},
       userVoices: {},
-      teilnehmer: {},
       authenticated: false,
       currentUser: null,
       loading: true,
@@ -118,11 +117,6 @@ class App extends Component {
       context: this,
       state: "userVoices"
     });
-
-    this.teilnehmerRef = base.syncState("teilnehmer", {
-      context: this,
-      state: "teilnehmer"
-    })
 
     this.removeAuthListener = app.auth().onAuthStateChanged(user => {
       if (user) {
@@ -625,7 +619,7 @@ class App extends Component {
                   path="/teilnehmer"
                   render={props => {
                     if (authenticated) {
-                      return <Transition><Teilnehmer teilnehmer={this.state.teilnehmer} /></Transition>;
+                      return <Transition><Teilnehmer /></Transition>;
                     } else {
                       return <Transition><Redirect to="/login" /></Transition>;
                     }
