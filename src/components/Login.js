@@ -40,11 +40,10 @@ class Login extends Component {
 
     app.auth().fetchProvidersForEmail(subLogin)
       .then((providers) => {
-        if (providers.length === 0) {
+        /*if (providers.length === 0) {
           return app.auth().createUserWithEmailAndPassword(subLogin, subPassword);
-        } else {
+        } else { */
           return app.auth().signInWithEmailAndPassword(subLogin, subPassword);
-        }
       })
       .then((user) => {
         if (user && user.email) {

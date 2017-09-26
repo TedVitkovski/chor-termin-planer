@@ -19,7 +19,7 @@ abzumelden!
 Um sich auf der Seite anzumelden, brauchen Sie lediglich einen Login und ein Passwort, die Sie zugewiesen
 bekommen sollten.
 
-Falls Sie ihr Passwort **vergessen** haben sollten, schreiben Sie bitte eine E-Mail mit Ihrem Benutzernamen an die folgende E-Mail Adresse:
+Falls Sie Ihr Passwort **vergessen** haben sollten, schreiben Sie bitte eine E-Mail mit Ihrem Benutzernamen an die folgende E-Mail Adresse:
 <fvitkovski@mail.de>
 
   ---
@@ -33,6 +33,8 @@ Falls Sie ihr Passwort **vergessen** haben sollten, schreiben Sie bitte eine E-M
 
 Um zwischen Monaten hin und herzuschalten klicken Sie auf die oben platzierten Pfeile.
 ![](${monthswitcher})
+
+Um ein Termin auszuwählen klicken Sie auf das entsprechende Datum.
 
 ### Das Abmelden von einer Veranstaltung
 
