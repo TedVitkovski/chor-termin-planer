@@ -52,6 +52,17 @@ class Login extends Component {
         }
       })
       .catch((error) => {
+        console.log(error.code + ' !!!!');
+        switch (error.code) {
+          case "auth/wrong-password" :
+            error.message = "Der Passwort ist falsch!";
+            break;
+          case "auth/invalid-email" :
+            error.message = "Der Benutzername (Login) ist falsch!";
+            break;
+          case "auth/user-not-found" :
+            error.message = "Der Benutzername (Login) ist falsch!";
+        }
         this.setState({ errorMessage: error.message, visible: true });
       })
 
