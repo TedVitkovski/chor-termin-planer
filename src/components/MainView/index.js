@@ -2,14 +2,12 @@ import React, { Component } from "react";
 import { Button, Container, Tab, Radio, Menu } from "semantic-ui-react";
 import Toggle from "react-toggle";
 
-import HeaderView from "./Header.js";
-import TerminTable from "./TerminTable.js";
-import "../styles/ToggleButton.css";
+import "../../styles/ToggleButton.css";
 
-import FadeTransition from '../animations/FadeTransition.js';
+import FadeTransition from '../../animations/FadeTransition.js';
 import TransitionGroup from "react-transition-group/TransitionGroup";
 
-import { monthToString } from "../helperFunctions.js";
+import { monthToString } from "../../helperFunctions.js";
 
 class MainView extends Component {
   constructor(props) {

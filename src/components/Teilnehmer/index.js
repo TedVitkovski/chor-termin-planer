@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { Table } from "semantic-ui-react";
 
-import { base } from "../base";
+import { base } from "../../base";
 
 class Teilnehmer extends Component {
   constructor() {
@@ -25,7 +25,6 @@ class Teilnehmer extends Component {
   }
 
   printTeilnehmer = () => {
-    console.log(this.state.teilnehmer[0]);
     const newObject = Object.keys(this.state.teilnehmer).map((key, index) => (
       <Table.Row key={index}>
         <Table.Cell>{this.state.teilnehmer[index]["name"]}</Table.Cell>

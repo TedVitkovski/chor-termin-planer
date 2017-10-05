@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Loader, Dimmer } from 'semantic-ui-react';
-import { app } from '../base';
+import { app } from '../../base';
 
 class Logout extends Component {
 
@@ -13,9 +13,7 @@ class Logout extends Component {
   }
 
   componentDidMount() {
-	console.log('Logout is mounted!');
     app.auth().signOut().then((user) => {
-	  console.log('SIGNED OUT!!!!!!!!!!')
       this.setState({ redirect: true })
     });
   }

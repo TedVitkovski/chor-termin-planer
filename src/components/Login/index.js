@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Container, Message } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
 
-import { app } from '../base'
+import { app } from '../../base'
 class Login extends Component {
 
   constructor(props) {
@@ -52,7 +52,6 @@ class Login extends Component {
         }
       })
       .catch((error) => {
-        console.log(error.code + ' !!!!');
         switch (error.code) {
           case "auth/wrong-password" :
             error.message = "Der Passwort ist falsch!";

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Button, Menu, Popup } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-import HeaderView from './Header.js';
-import NewTerminForm from './NewTerminForm.js'
+import HeaderView from './Header';
+import NewTerminForm from './NewTerminForm'
 
 class TopNav extends Component {
 
   constructor(props) {
-    super(props)
+    super(props)  
     this.closePopover = this.closePopover.bind(this);
     this.state = {
       activeItem : 'home',

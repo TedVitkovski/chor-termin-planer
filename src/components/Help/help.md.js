@@ -1,4 +1,4 @@
-  import toggle from './img/toggle.JPG';
+import toggle from './img/toggle.JPG';
 import crossedname from './img/crossedname.JPG';
 import signout from './img/signout.JPG';
 import monthswitcher from './img/monthswitcher.JPG';

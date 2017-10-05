@@ -22,7 +22,6 @@ class NewTerminForm extends Component {
   createTermin(event) {
     event.preventDefault();
 
-    console.log('This was hit');
     this.props.addTermin(this.state.date);
 
     this.terminForm.reset();

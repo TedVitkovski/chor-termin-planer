@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Table } from "semantic-ui-react";
 
-import { base } from "../base";
+import { base } from "../../base";
 
-import DynamicTableRow from "./DynamicTableRow.js";
+import DynamicTableRow from "./DynamicTableRow";
 
 class TerminTable extends Component {
   constructor(props) {
