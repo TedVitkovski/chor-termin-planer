@@ -1,9 +1,9 @@
 import React, { Component } from "react";
+import { base } from "../../base";
 
 import { Table } from "semantic-ui-react";
 
-import { base } from "../../base";
-
+import View from './View';
 class Teilnehmer extends Component {
   constructor() {
     super();
@@ -38,20 +38,7 @@ class Teilnehmer extends Component {
 
   render() {
     return (
-      <div style={{ marginTop: "3em" }}>
-        <Table singleLine>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Name</Table.HeaderCell>
-              <Table.HeaderCell>Vorname</Table.HeaderCell>
-              <Table.HeaderCell>E-mail Adresse</Table.HeaderCell>
-              <Table.HeaderCell>Telefon-Nummer</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
-          <Table.Body>{this.printTeilnehmer()}</Table.Body>
-        </Table>
-      </div>
+      <View printTeilnehmer = {this.printTeilnehmer} />
     );
   }
 }

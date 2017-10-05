@@ -1,14 +1,7 @@
-import React, { Component } from "react";
-import { Button, Container, Tab, Radio, Menu } from "semantic-ui-react";
-import Toggle from "react-toggle";
+import React, { Component } from "react"
+import { monthToString } from "../../helperFunctions.js"
 
-import "../../styles/ToggleButton.css";
-
-import FadeTransition from '../../animations/FadeTransition.js';
-import TransitionGroup from "react-transition-group/TransitionGroup";
-
-import { monthToString } from "../../helperFunctions.js";
-
+import View from './View'
 class MainView extends Component {
   constructor(props) {
     super(props);
@@ -19,13 +12,21 @@ class MainView extends Component {
     };
   }
 
+  componentWillMount() {
+    this.formatMonthYear();
+  }
+
   getMonthYear = () => {
     return `${monthToString(this.state.currMonth)} ${this.state.currYear}`;
   };
 
-  componentWillMount() {
-    this.formatMonthYear();
-  }
+   /**
+   * This function formats the month and year and sends it
+   * to the main App component
+   */
+  formatMonthYear = () => {
+    this.props.sendMonth(this.getMonthYear());
+  };
 
   /* This function changes the current month to the previous month */
   prevMonth = () => {
@@ -53,55 +54,17 @@ class MainView extends Component {
     );
   };
 
-  /**
-   * This function formats the month and year and sends it
-   * to the main App component
-   */
-  formatMonthYear = () => {
-    this.props.sendMonth(this.getMonthYear());
-  };
-
   render() {
     return (
-      <div>
-        <Container
-          textAlign="center"
-          style={{ marginBottom: "3em", marginTop: "3em" }}
-        >
-          <Button.Group basic>
-            <Button
-              labelPosition="left"
-              icon="left chevron"
-              content="Letzter Monat"
-              onClick={this.prevMonth}
-            />
-            <Button
-              onClick={this.props.onClick}
-              style={{
-                fontSize: "23px",
-                fontWeight: "900",
-                cursor: "auto",
-                minWidth: "250px"
-              }}
-              content={this.getMonthYear()}
-            />
-            <Button
-              labelPosition="right"
-              icon="right chevron"
-              content="Nächster Monat"
-              onClick={this.nextMonth}
-            />
-          </Button.Group>
-
-        </Container>
-
-        <Tab
-          menu={{ fluid: true, vertical: true, tabular: "left" }}
-          panes={this.props.verticalPanes[this.getMonthYear()]}
-        />
-      </div>
-    );
-  }
+      <View 
+        {...this.props}
+        {...this.state}
+        prevMonth = {this.prevMonth}
+        nextMonth = {this.nextMonth}
+        getMonthYear = {this.getMonthYear}
+      />
+    )
+  };
 }
 
 export default MainView;

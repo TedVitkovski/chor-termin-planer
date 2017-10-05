@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Container, Message } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
+
+import View from './View';
 
 import { app } from '../../base'
 class Login extends Component {
@@ -64,29 +64,17 @@ class Login extends Component {
         }
         this.setState({ errorMessage: error.message, visible: true });
       })
-
-
   }
 
-
   render() {
-    const { login, password, submittedName, submittedPassword, redirect } = this.state;
-    if (redirect) {
-      return <Redirect to='/' />
-    }
     return (
-      <div>
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-          {this.state.visible && <Message error onDismiss={this.handleDismiss} header='Fehler!' content={this.state.errorMessage} />}
-        </div>
-          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '4em'}}>
-            <Form className='segment' size={'large'} onSubmit={this.authWithEmailPassword}>
-                <Form.Input label='Login: ' type='text' name='login' value={login} placeholder='Login...' onChange={this.handleChange} />
-                <Form.Input label='Passwort: ' type='password' name='password' value={password} placeholder='Passwort...' onChange={this.handleChange} width='16' />
-                <Form.Button content='Einloggen' />
-            </Form>
-        </div>
-      </div>
+      <View 
+        {...this.props}
+        {...this.state}
+        handleDismiss = {this.handleDismiss}
+        authWithEmailPassword = {this.authWithEmailPassword}
+        handleChange = {this.handleChange}
+      />
     );
   }
 };
