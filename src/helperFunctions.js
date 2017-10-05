@@ -65,3 +65,12 @@ export const isEmpty = (obj) => {
   }
   return true;
 }
+
+/**
+ * This helper function can be used to check,
+ * whether an element is in the given array
+ * or not.
+ */
+export const isInArray = (arr, element) => {
+  return arr.indexOf(element.toLowerCase()) > -1;
+}

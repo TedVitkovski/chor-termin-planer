@@ -8,15 +8,14 @@ import NewTerminForm from './NewTerminForm'
 class TopNav extends Component {
 
   constructor(props) {
-    super(props)  
-    this.closePopover = this.closePopover.bind(this);
+    super(props);
     this.state = {
       activeItem : 'home',
       popoverOpen: false,
     }
   }
 
-  closePopover() {
+  closePopover = () => {
     this.setState({ popoverOpen: false })
   }
 

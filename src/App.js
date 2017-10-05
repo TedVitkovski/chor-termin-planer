@@ -36,7 +36,8 @@ import Help from "./components/Help";
 import {
   monthToString,
   sortIndividualDates,
-  isEmpty
+  isEmpty,
+  isInArray
 } from "./helperFunctions.js";
 
 import "./styles/App.css";
@@ -98,7 +99,8 @@ class App extends Component {
       authenticated: false,
       currentUser: null,
       loading: true,
-      monthYear: ""
+      monthYear: "",
+      specialDates: ['03.12.2017', '25.12.2017', '18.03.2018']
     };
   }
 
@@ -299,7 +301,8 @@ class App extends Component {
               justifyContent: "center"
             }}
           >
-            <span style={{ marginRight: "2em" }}>{currDateString}</span>
+            {(isInArray(this.state.specialDates, currDateString)) && <span style={{ marginRight: "2em", color: 'red', fontWeight: '900'}}>{currDateString}</span>}
+            {(!isInArray(this.state.specialDates, currDateString)) && <span style={{ marginRight: "2em" }}>{currDateString}</span>}
             <label>
               <Toggle
                 id={currId}
