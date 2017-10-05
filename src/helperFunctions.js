@@ -27,18 +27,20 @@ export const monthToString = (month) => {
 export const sortIndividualDates = (individualDates) => {
   let sortedArr = [];
   let days = [];
-  for (let i = 0; i < individualDates.length; i++) {
-    let tempDate = individualDates[i];
-    const tempDay = tempDate.slice(0, 2);
+  
+  individualDates.map(date => {
+    const tempDay = date.slice(0, 2);
     days.push(tempDay);
-  }
+  })
+
   days.sort();
-  for (let i = 0; i < individualDates.length; i++) {
-    let tempDate = individualDates[i];
-    const tempRest = tempDate.slice(2, 8);
-    const newDate = days[i] + tempRest;
+
+  individualDates.map((date, index) => {
+    const tempRest = date.slice(2, 8);
+    const newDate = days[index] + tempRest;
     sortedArr.push(newDate);
-  }
+  })
+  
   return sortedArr;
 }
 

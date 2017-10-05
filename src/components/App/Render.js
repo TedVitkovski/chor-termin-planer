@@ -35,42 +35,38 @@ class Render extends Component {
     let verticalPanesObj = {};
     let verticalPanesArr = [];
 
-    for (let i = 0; i < months.length; i++) {
-      const individualDatesUnsorted = Object.keys(
-        dates[months[i]].individualdates
-      );
-      const individualDates = sortIndividualDates(individualDatesUnsorted);
-      for (let j = 0; j < individualDates.length; j++) {
-        let tempDate = individualDates[j];
-        const tempMonthFirstStep = tempDate.slice(0, -4);
-        const tempMonth = tempMonthFirstStep.slice(2, 4);
-        const tempYear = tempDate.slice(4);
-        const tempDay = tempDate.slice(0, 2);
-
-        const stringDate =
-          tempDay.toString() +
-          "." +
-          tempMonth.toString() +
-          "." +
-          tempYear.toString();
-
-        const tempId = tempMonth.toString() + j.toString() + counter.toString();
-        const checkArrId = tempId.slice(3, tempId.length);
-        verticalPanesArr.push(
-          this.renderVerticalPane(
-            tempDate,
-            stringDate,
-            tempMonth,
-            tempYear,
-            tempId,
-            checkArrId
-          )
-        );
-        counter++;
-      }
-      verticalPanesObj[months[i]] = verticalPanesArr;
-      verticalPanesArr = [];
-    }
+    months.map(month => {
+        const individualDatesUnsorted = Object.keys(dates[month].individualdates);
+        const individualdates = sortIndividualDates(individualDatesUnsorted);
+        individualdates.map((date, index) => {
+            const tempMonthFirstStep = date.slice(0, -4);
+            const tempMonth = tempMonthFirstStep.slice(2, 4);
+            const tempYear = date.slice(4);
+            const tempDay = date.slice(0, 2);
+    
+            const stringDate =
+              tempDay.toString() +
+              "." +
+              tempMonth.toString() +
+              "." +
+              tempYear.toString();
+              const tempId = tempMonth.toString() + index.toString() + counter.toString();
+              const checkArrId = tempId.slice(3, tempId.length);
+              verticalPanesArr.push(
+                this.renderVerticalPane(
+                  date,
+                  stringDate,
+                  tempMonth,
+                  tempYear,
+                  tempId,
+                  checkArrId
+                )
+              );
+              counter++;
+            })
+            verticalPanesObj[month] = verticalPanesArr;
+            verticalPanesArr = []
+        })
     return verticalPanesObj;
   };
 
