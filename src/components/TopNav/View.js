@@ -57,8 +57,8 @@ const View = ({
                       />*/}
 
                       <Menu.Item>
-                        <p>Eingeloggt als: 
-                          <span style={{fontWeight: '700'}}>
+                        <p>Eingeloggt als:
+                          <span style={{fontWeight: '700', marginLeft: '0.3em'}}>
                             {currentUser.email.slice(0, -8)}
                           </span>
                         </p>
