@@ -4,9 +4,9 @@ import { Table } from "semantic-ui-react"
 import DynamicTableRow from "./DynamicTableRow"
 
 const View = ({
-    sopran, alt, tenor, bass, createVoicesToNames
+    sopran, alt, tenor, bass, mapVoicesToNames
 }) => {
-    const users = createVoicesToNames();
+    const users = mapVoicesToNames();
     return (
         <Table
             color="orange"
@@ -18,10 +18,10 @@ const View = ({
         >
             <Table.Header>
                 <Table.Row>
-                <Table.HeaderCell>Sopran</Table.HeaderCell>
-                <Table.HeaderCell>Alt</Table.HeaderCell>
-                <Table.HeaderCell>Tenor</Table.HeaderCell>
-                <Table.HeaderCell>Bass</Table.HeaderCell>
+                    <Table.HeaderCell>Sopran</Table.HeaderCell>
+                    <Table.HeaderCell>Alt</Table.HeaderCell>
+                    <Table.HeaderCell>Tenor</Table.HeaderCell>
+                    <Table.HeaderCell>Bass</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 

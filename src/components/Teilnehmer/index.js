@@ -24,6 +24,12 @@ class Teilnehmer extends Component {
     base.removeBinding(this.teilnehmerRef);
   }
 
+  /**
+   * This method maps over all the partakers
+   * and returns an object with a row containing
+   * information about each partaker
+   * @method
+   */
   printTeilnehmer = () => {
     const newObject = Object.keys(this.state.teilnehmer).map((key, index) => (
       <Table.Row key={index}>

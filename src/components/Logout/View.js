@@ -9,7 +9,7 @@ const View = ({
         return <Redirect to='/' />
       }
       return (
-        <div style={{ textAlign: 'center', position: 'absolute', top: '25%', left: '50%' }}>
+        <div className="loader">
           <Dimmer active inverted>
             <Loader content="Loading" />
           </Dimmer>

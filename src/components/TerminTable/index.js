@@ -1,6 +1,9 @@
-import React, { Component } from "react"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
-import { base } from "../../base"
+import { base } from '../../base'
+
+import { capitalizeName } from '../../helperFunctions'
 
 import View from './View';
 
@@ -23,12 +26,15 @@ class TerminTable extends Component {
 	  base.removeBinding(this.teilnehmerRef);
   }
 
-  capitalizeName(name) {
-    return name.charAt(0).toUpperCase() + name.slice(1);
-  }
-
-  createVoicesToNames = () => {
+  /**
+   * This method maps over all partakers and returns
+   * an object with four voice arrays containg their
+   * names
+   * @method
+   */
+  mapVoicesToNames = () => {
     const users = {};
+
     const soprans = [];
     const alts = [];
     const tenors = [];
@@ -37,7 +43,7 @@ class TerminTable extends Component {
     for (let i = 0; i < this.props.names.length; i++) {
       for (let j = 0; j < this.state.teilnehmer.length; j++) {
         let userName = this.props.names[i];
-        let userRealName = this.capitalizeName(userName.slice(0, -1));
+        let userRealName = capitalizeName(userName.slice(0, -1));
 
         if (this.state.teilnehmer[j]["vorname"] === userRealName) {
           let nachname = this.state.teilnehmer[j]["name"];
@@ -75,10 +81,19 @@ class TerminTable extends Component {
     return (
       <View 
         {...this.props} 
-        createVoicesToNames = {this.createVoicesToNames} 
+        mapVoicesToNames = {this.mapVoicesToNames} 
       />
     )
   }
+}
+
+TerminTable.propTypes = {
+  userVoices: PropTypes.object.isRequired,
+  names: PropTypes.array.isRequired,
+  sopran: PropTypes.number.isRequired,
+  alt: PropTypes.number.isRequired,
+  tenor: PropTypes.number.isRequired,
+  bass: PropTypes.number.isRequired,
 }
 
 export default TerminTable;

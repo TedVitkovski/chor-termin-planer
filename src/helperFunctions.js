@@ -1,6 +1,7 @@
 
 /**
  * This helper function turn a month into a string
+ * @func
  */
 export const monthToString = (month) => {
   const monthNames = [
@@ -25,29 +26,33 @@ export const monthToString = (month) => {
  * @function
  */
 export const sortIndividualDates = (individualDates) => {
-  let sortedArr = [];
-  let days = [];
-  
-  individualDates.map(date => {
-    const tempDay = date.slice(0, 2);
-    days.push(tempDay);
-  })
+ 
+  const days = individualDates.map(date => 
+    date.slice(0, 2)
+  ).sort();
 
-  days.sort();
-
-  individualDates.map((date, index) => {
+  const sortedArr = individualDates.map((date, index) => {
     const tempRest = date.slice(2, 8);
-    const newDate = days[index] + tempRest;
-    sortedArr.push(newDate);
-  })
-  
+    return days[index] + tempRest;
+  });
+
   return sortedArr;
+}
+
+/**
+ * This helper function takes in the name and
+ * return it with the first letter capitalized
+ * @func
+ */
+export const capitalizeName = (name) => {
+  return name.charAt(0).toUpperCase() + name.slice(1);
 }
 
 
 /**
  * This helper function can be used, if one needs to stop
  * the compiler for a certain amount of time
+ * @func
  */
 export const wait = (ms) => {
   var start = new Date().getTime();
@@ -60,6 +65,7 @@ export const wait = (ms) => {
 /**
  * This helper function can be used, if one needs to check,
  * whether the passed object is empty
+ * @func
  */
 export const isEmpty = (obj) => {
   for (var p in obj) {
@@ -72,6 +78,7 @@ export const isEmpty = (obj) => {
  * This helper function can be used to check,
  * whether an element is in the given array
  * or not.
+ * @func
  */
 export const isInArray = (arr, element) => {
   return arr.indexOf(element.toLowerCase()) > -1;

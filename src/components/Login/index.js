@@ -1,39 +1,46 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import View from './View';
 
-import { app } from '../../base'
+import { app } from '../../base';
 class Login extends Component {
 
   constructor(props) {
     super(props)
-    this.authWithEmailPassword = this.authWithEmailPassword.bind(this);
+
     this.state = {
       redirect: false,
       errorMessage: '',
       visible: false,
       login: '',
       password: '',
-      submittedName: '',
-      submittedPassword: ''
     }
   }
 
-  handleChange = (e, { name, value }) => this.setState({ [name]: value });
+  handleChange = (e, { name, value }) => this.setState({ 
+    [name]: value 
+  });
 
   handleSubmit = () => {
     const { login, password } = this.state;
 
-    this.setState({redirect: true, login: '', password: '', submittedName: login, submittedPassword: password});
+    this.setState({
+      redirect: true, 
+      login: '',
+      password: '',
+    });
   }
 
-  handleDismiss = () => {
-    this.setState({ visible: false });
-  }
+  handleDismiss = () => this.setState({ 
+      visible: false 
+  });
 
-  authWithEmailPassword(event) {
-    event.preventDefault();
+  authWithEmailPassword = (event) => {
+    const { setCurrentUser } = this.props;
     const { login, password } = this.state;
+
+    event.preventDefault();
 
     const subLogin = login + '@mail.de';
     const subPassword = password;
@@ -47,7 +54,7 @@ class Login extends Component {
       })
       .then((user) => {
         if (user && user.email) {
-          this.props.setCurrentUser(user);
+          setCurrentUser(user);
           this.setState({redirect: true, login: '', password: ''})
         }
       })
@@ -62,14 +69,16 @@ class Login extends Component {
           case "auth/user-not-found" :
             error.message = "Der Benutzername (Login) ist falsch!";
         }
-        this.setState({ errorMessage: error.message, visible: true });
+        this.setState({ 
+          errorMessage: error.message,
+          visible: true
+        });
       })
   }
 
   render() {
     return (
-      <View 
-        {...this.props}
+      <View
         {...this.state}
         handleDismiss = {this.handleDismiss}
         authWithEmailPassword = {this.authWithEmailPassword}
@@ -77,6 +86,10 @@ class Login extends Component {
       />
     );
   }
+};
+
+Login.propTypes = {
+  setCurrentUser: PropTypes.func.isRequired
 };
 
 export default Login;

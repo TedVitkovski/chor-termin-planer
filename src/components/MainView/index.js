@@ -1,6 +1,7 @@
 import React, { Component } from "react"
-import { monthToString } from "../../helperFunctions.js"
+import PropTypes from 'prop-types';
 
+import { monthToString } from "../../helperFunctions.js"
 import View from './View'
 class MainView extends Component {
   constructor(props) {
@@ -16,19 +17,27 @@ class MainView extends Component {
     this.formatMonthYear();
   }
 
+  /**
+   * This method returns a formatted monthYear
+   * @method
+   */
   getMonthYear = () => {
     return `${monthToString(this.state.currMonth)} ${this.state.currYear}`;
   };
 
    /**
-   * This function formats the month and year and sends it
-   * to the main App component
+    * This method formats the month and year and sends it
+    * to the main App component
+    * @method
    */
   formatMonthYear = () => {
     this.props.sendMonth(this.getMonthYear());
   };
 
-  /* This function changes the current month to the previous month */
+  /**
+   * This method changes the current month to the previous month
+   * @method
+   */
   prevMonth = () => {
     const tempDate = new Date(this.state.currYear, this.state.currMonth - 1);
 
@@ -41,7 +50,10 @@ class MainView extends Component {
     );
   };
 
-  /* This function changes the current month to the next month */
+  /**
+   * This method changes the current month to the next month
+   * @method
+   */
   nextMonth = () => {
     const tempDate = new Date(this.state.currYear, this.state.currMonth + 1);
 
@@ -65,6 +77,13 @@ class MainView extends Component {
       />
     )
   };
+}
+
+MainView.propTypes = {
+  verticalPanes: PropTypes.object.isRequired,
+  currMonth: PropTypes.number.isRequired,
+  currYear: PropTypes.number.isRequired,
+  sendMonth: PropTypes.func.isRequired
 }
 
 export default MainView;

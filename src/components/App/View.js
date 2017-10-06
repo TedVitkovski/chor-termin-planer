@@ -28,19 +28,13 @@ const View = ({
     setLoadingToFalse, useras, toggleView, receiveMonth, setCurrentUser, mainRenderer, addTermin, addUser, loading, authenticated, currentUser
 }) => {
         if (loading) {
+
           if (!isEmpty(useras)) {
             setLoadingToFalse()
           }
-    
+
           return (
-            <div
-              style={{
-                textAlign: "center",
-                position: "absolute",
-                top: "25%",
-                left: "50%"
-              }}
-            >
+            <div className="loader">
               <Dimmer active inverted>
                 <Loader content="Lädt..." />
               </Dimmer>
@@ -52,6 +46,7 @@ const View = ({
           <div>
             <BrowserRouter>
               <div className="main">
+
                 <TopNav
                   authenticated={authenticated}
                   currentUser={currentUser}
@@ -59,8 +54,10 @@ const View = ({
                   addTermin={addTermin}
                   buttonOnClick={addUser}
                 />
+
                 <div className="ui container" style={{ marginTop: "3em" }}>
                   <TransitionSwitch parallel={false}>
+                    
                     <Route
                       exact
                       path="/"
@@ -85,6 +82,7 @@ const View = ({
                         }
                       }}
                     />
+
                     <Route
                       path="/teilnehmer"
                       render={props => {
@@ -102,11 +100,13 @@ const View = ({
                         }
                       }}
                     />
+
                     <Route path="/help">
                       <Transition>
                         <Help />
                       </Transition>
                     </Route>
+
                     <Route
                       path="/login"
                       render={props => {
@@ -117,11 +117,13 @@ const View = ({
                         );
                       }}
                     />
+
                     <Route path="/logout">
                       <Transition>
                         <Logout />
                       </Transition>
                     </Route>
+
                   </TransitionSwitch>
                 </div>
               </div>

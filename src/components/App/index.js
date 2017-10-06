@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
 import {
-  sortIndividualDates,
   monthToString
 } from "../../helperFunctions.js";
 
@@ -48,7 +47,6 @@ class App extends Component {
 
     this.removeAuthListener = app.auth().onAuthStateChanged(user => {
       if (user) {
-        this.state.currentUser = user;
 
         this.setState({
           currentUser: user,

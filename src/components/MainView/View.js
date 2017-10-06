@@ -1,14 +1,18 @@
 import React from 'react';
-import { Button, Container, Tab, Radio, Menu } from "semantic-ui-react";
+import { Button, Container, Tab, Menu } from "semantic-ui-react";
 import Toggle from "react-toggle";
 
 import "../../styles/ToggleButton.css";
 
-import FadeTransition from '../../animations/FadeTransition.js';
-import TransitionGroup from "react-transition-group/TransitionGroup";
+const monthYearStyle = {
+    fontSize: '23px',
+    fontWeight: '900',
+    cursor: 'auto',
+    minWidth: '250px'
+}
 
 const View = ({
-    onClick, prevMonth, nextMonth, verticalPanes, getMonthYear
+    prevMonth, nextMonth, verticalPanes, getMonthYear
 }) => (
     <div>
         <Container
@@ -23,13 +27,7 @@ const View = ({
                     onClick={prevMonth}
                 />
                 <Button
-                    onClick={onClick}
-                    style={{
-                        fontSize: "23px",
-                        fontWeight: "900",
-                        cursor: "auto",
-                        minWidth: "250px"
-                    }}
+                    style={ monthYearStyle }
                     content={getMonthYear()}
                 />
                 <Button
@@ -42,8 +40,14 @@ const View = ({
         </Container>
 
         <Tab
-            menu={{ fluid: true, vertical: true, tabular: "left" }}
-            panes={verticalPanes[getMonthYear()]}
+            menu={{
+                fluid: true, 
+                vertical: true, 
+                tabular: "left" 
+            }}
+            panes={
+                verticalPanes[getMonthYear()]
+            }
         />
     </div>
 )
