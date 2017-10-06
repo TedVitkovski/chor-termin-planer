@@ -3,7 +3,7 @@ import React from 'react'
 import { Button, Menu, Popup } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-import HeaderView from './Header';
+import Header from './Header';
 import NewTerminForm from './NewTerminForm'
 
 const View = ({
@@ -14,7 +14,7 @@ const View = ({
               ? (<Menu size='large'>
                     <Menu.Menu >
                       <Menu.Item>
-                        <HeaderView />
+                        <Header />
                       </Menu.Item>
                     </Menu.Menu>
 
@@ -33,20 +33,20 @@ const View = ({
                         onClick={this.handleItemClick} 
                     />
                     {admin() &&
-                        <Popup
-                        trigger={<Menu.Item className='terminErstellen' name='termin erstellen' style={{height: '65px'}} active={ activeItem === 'termin erstellen' } />}
-                        flowing
-                        hideOnScroll={false}
-                        open={popoverOpen}
-                        onOpen={onOpen}
-                        on='click'
-                        position='bottom center'
-                        >
-                            <NewTerminForm
-                                addTermin={addTermin}
-                                postSubmitHandler={closePopover}
-                            />
-                        </Popup>
+                    <Popup
+                      trigger={<Menu.Item className='terminErstellen' name='termin erstellen' style={{height: '65px'}} active={ activeItem === 'termin erstellen' } />}
+                      flowing
+                      hideOnScroll={false}
+                      open={popoverOpen}
+                      onOpen={onOpen}
+                      on='click'
+                      position='bottom center'
+                    >
+                        <NewTerminForm
+                            addTermin={addTermin}
+                            postSubmitHandler={closePopover}
+                        />
+                    </Popup>
                     }
 
                     <Menu.Menu position='right'>
@@ -55,9 +55,15 @@ const View = ({
                         active={ activeItem === 'addnutzer' }
                         onClick={this.props.buttonOnClick}
                       />*/}
+
                       <Menu.Item>
-                        <p>Eingeloggt als: <span style={{fontWeight: '700'}}>{currentUser.email.slice(0, -8)}</span></p>
+                        <p>Eingeloggt als: 
+                          <span style={{fontWeight: '700'}}>
+                            {currentUser.email.slice(0, -8)}
+                          </span>
+                        </p>
                       </Menu.Item>
+
                       <Menu.Item
                         name='hilfe'
                         as={ Link }
@@ -72,18 +78,18 @@ const View = ({
                             basic color='orange'
                             onClick={onClick}
                           >
-                          Abmelden
+                            Abmelden
                           </Button>
                         </Link>
                       </Menu.Item>
-                    </Menu.Menu>
 
-                    </Menu>
+                    </Menu.Menu>
+                  </Menu>
                )
               : (<Menu size='large'>
                     <Menu.Menu>
                       <Menu.Item>
-                        <HeaderView />
+                        <Header />
                       </Menu.Item>
                     </Menu.Menu>
                     <Menu.Menu position='right'>

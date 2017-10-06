@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
+
 import { Form } from 'semantic-ui-react';
-
-import moment from 'moment';
-import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
-
-const newSongStyles = {
-  padding: '10px'
-}
 
 class NewTerminForm extends Component {
 
@@ -33,8 +27,9 @@ class NewTerminForm extends Component {
       <form
         onSubmit={(event => this.createTermin(event))}
         ref={(form) => this.terminForm = form}
-        style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+        className="flex-center"
       >
+
         <TextField
           id="date"
           ref={(input) => { this.dateInput = input }}
@@ -42,8 +37,11 @@ class NewTerminForm extends Component {
           type="date"
           style={{maxWidth: '150px'}}
           value={this.state.date}
-          onChange={event => this.setState({ date: event.target.value })}
+          onChange={event => this.setState({ 
+            date: event.target.value 
+          })}
         />
+
         <Form.Button
           type='submit'
           style={{marginLeft: '1em'}}
@@ -54,11 +52,6 @@ class NewTerminForm extends Component {
     )
   }
 
-  handleChange(date) {
-    this.setState({
-      startDate: date
-    });
-  }
 }
 
 export default NewTerminForm;

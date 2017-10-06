@@ -50,7 +50,7 @@ export const capitalizeName = (name) => {
 
 
 /**
- * This helper function can be used, if one needs to stop
+ * This helper function is used, if one needs to stop
  * the compiler for a certain amount of time
  * @func
  */
@@ -63,7 +63,7 @@ export const wait = (ms) => {
 }
 
 /**
- * This helper function can be used, if one needs to check,
+ * This helper function is used, if one needs to check,
  * whether the passed object is empty
  * @func
  */
@@ -75,11 +75,11 @@ export const isEmpty = (obj) => {
 }
 
 /**
- * This helper function can be used to check,
+ * This helper function is used to check,
  * whether an element is in the given array
  * or not.
  * @func
  */
 export const isInArray = (arr, element) => {
-  return arr.indexOf(element.toLowerCase()) > -1;
+  return arr.indexOf(element) > -1;
 }

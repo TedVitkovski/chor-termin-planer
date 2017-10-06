@@ -25,7 +25,7 @@ class App extends Component {
       currentUser: null,
       loading: true,
       monthYear: "",
-      specialDates: ['03.12.2017', '25.12.2017', '18.03.2018']
+      specialDates: []
     };
   }
 
@@ -44,6 +44,11 @@ class App extends Component {
       context: this,
       state: "userVoices"
     });
+
+    this.specialDatesRef = base.syncState("specialDates", {
+      context: this,
+      state: "specialDates"
+    })
 
     this.removeAuthListener = app.auth().onAuthStateChanged(user => {
       if (user) {
@@ -67,6 +72,7 @@ class App extends Component {
     base.removeBinding(this.datesRef);
     base.removeBinding(this.usersRef);
     base.removeBinding(this.userVoicesRef);
+    base.removeBinding(this.specialDatesRef)
   }
 
   /**
