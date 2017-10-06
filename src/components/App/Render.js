@@ -74,14 +74,8 @@ class Render extends Component {
   ) => {
     return {
       menuItem: (
-        <Menu.Item key={checkArrId}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center"
-            }}
-          >
+        <Menu.Item key={checkArrId} >
+          <div className="flex-center">
             {(isInArray(this.props.specialDates, currDateString)) && <span style={{ marginRight: "2em", color: 'red', fontWeight: '900'}}>{currDateString}</span>}
             {(!isInArray(this.props.specialDates, currDateString)) && <span style={{ marginRight: "2em" }}>{currDateString}</span>}
             <label>

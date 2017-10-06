@@ -43,7 +43,9 @@ const View = ({
             menu={{
                 fluid: true, 
                 vertical: true, 
-                tabular: "left" 
+                tabular: "left",
+                activeIndex: "1",
+                size: "huge"
             }}
             panes={
                 verticalPanes[getMonthYear()]
