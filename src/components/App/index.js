@@ -4,13 +4,13 @@ import { Redirect } from "react-router-dom";
 
 import {
   monthToString
-} from "../../helperFunctions.js";
+} from "utils/helperFunctions";
 
-import "../../styles/App.css";
+import "styles/App.css";
 
 import Render from './Render';
 
-import { app, base } from "../../base";
+import { app, base } from "fire/base";
 
 class App extends Component {
 

@@ -11,16 +11,16 @@ import {
 
 import {
     isEmpty
-} from "../../helperFunctions.js";
+} from "utils/helperFunctions";
 
 import Transition from './Transition';
 
-import MainView from "../MainView";
-import TopNav from "../TopNav";
-import Login from "../Login";
-import Logout from "../Logout";
-import Teilnehmer from "../Teilnehmer";
-import Help from "../Help";
+import MainView from "components/MainView";
+import TopNav from "components/TopNav";
+import Login from "components/Login";
+import Logout from "components/Logout";
+import Teilnehmer from "components/Teilnehmer";
+import Help from "components/Help";
 
 const currDate = new Date();
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Container, Tab, Menu } from "semantic-ui-react";
 import Toggle from "react-toggle";
 
-import "../../styles/ToggleButton.css";
+import "styles/ToggleButton.css";
 
 const monthYearStyle = {
     fontSize: '23px',
@@ -44,7 +44,7 @@ const View = ({
                 fluid: true, 
                 vertical: true, 
                 tabular: "left",
-                activeIndex: "1"
+                size: "medium"
             }}
             panes={
                 verticalPanes[getMonthYear()]

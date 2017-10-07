@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { app } from '../../base';
+import { app } from 'fire/base';
 
 import View from './View';
 

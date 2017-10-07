@@ -7,15 +7,15 @@ import {
 
 import Toggle from "react-toggle";
 
-import TerminTable from "../TerminTable";
+import TerminTable from "components/TerminTable";
 
 import {
     monthToString,
     sortIndividualDates,
     isInArray
-  } from "../../helperFunctions.js";
+  } from "utils/helperFunctions";
 
-import View from './View';
+import View from "./View";
 
 class Render extends Component {
 

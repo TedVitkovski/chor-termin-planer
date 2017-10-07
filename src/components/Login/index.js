@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import View from './View';
 
-import { app } from '../../base';
+import { app } from 'fire/base';
 class Login extends Component {
 
   constructor(props) {

@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from 'prop-types';
 
-import { monthToString } from "../../helperFunctions.js"
+import { monthToString } from "utils/helperFunctions"
 import View from './View'
 class MainView extends Component {
   constructor(props) {

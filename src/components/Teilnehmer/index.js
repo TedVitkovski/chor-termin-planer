@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { base } from "../../base";
+import { base } from "fire/base";
 
 import { Table } from "semantic-ui-react";
 

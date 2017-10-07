@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { base } from '../../base'
-
-import { capitalizeName } from '../../helperFunctions'
+import { base } from 'fire/base'
+import { capitalizeName } from 'utils/helperFunctions'
 
 import View from './View';
 
