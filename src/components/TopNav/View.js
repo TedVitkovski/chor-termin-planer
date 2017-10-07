@@ -23,16 +23,18 @@ const View = ({
                         as={ Link } 
                         to='/' 
                         active={ activeItem === 'terminplaner' } 
-                        onClick={this.handleItemClick} 
+                        onClick={handleItemClick} 
                     />
+
                     <Menu.Item 
                         name='teilnehmer' 
                         as={ Link } 
                         to='/teilnehmer' 
                         active={ activeItem === 'teilnehmer' } 
-                        onClick={this.handleItemClick} 
+                        onClick={handleItemClick} 
                     />
-                    {admin() &&
+
+                    { admin() &&
                     <Popup
                       trigger={<Menu.Item className='terminErstellen' name='termin erstellen' style={{height: '65px'}} active={ activeItem === 'termin erstellen' } />}
                       flowing
@@ -46,14 +48,13 @@ const View = ({
                             addTermin={addTermin}
                             postSubmitHandler={closePopover}
                         />
-                    </Popup>
-                    }
+                    </Popup> }
 
                     <Menu.Menu position='right'>
                       {/*<Menu.Item
                         name='addnutzer'
                         active={ activeItem === 'addnutzer' }
-                        onClick={this.props.buttonOnClick}
+                        onClick={props.buttonOnClick}
                       />*/}
 
                       <Menu.Item>
@@ -93,6 +94,7 @@ const View = ({
                       </Menu.Item>
                     </Menu.Menu>
                     <Menu.Menu position='right'>
+
                       <Menu.Item
                         name='hilfe'
                         as={ Link }
@@ -100,9 +102,8 @@ const View = ({
                         active={ activeItem === 'hilfe' }
                         onClick={handleItemClick}
                       />
-                      <Menu.Item
-                        onClick={handleItemClick}
-                      >
+
+                      <Menu.Item onClick={handleItemClick} >
                           <Link to='/login'>
                             <Button
                               basic
