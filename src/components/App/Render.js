@@ -13,7 +13,7 @@ import {
     monthToString,
     sortIndividualDates,
     isInArray
-  } from "utils/helperFunctions";
+  } from "utils/helperFunctions.js";
 
 import View from "./View";
 

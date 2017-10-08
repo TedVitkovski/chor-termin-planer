@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { base } from 'fire/base'
-import { capitalizeName } from 'utils/helperFunctions'
+import { capitalizeName } from 'utils/helperFunctions.js'
 
 import View from './View';
 

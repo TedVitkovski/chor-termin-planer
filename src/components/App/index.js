@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 
 import {
   monthToString
-} from "utils/helperFunctions";
+} from "utils/helperFunctions.js";
 
 import "styles/App.css";
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { isInArray } from 'utils/helperFunctions'
+import { isInArray } from 'utils/helperFunctions.js'
 
 import View from './View'
 class TopNav extends Component {

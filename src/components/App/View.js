@@ -11,7 +11,7 @@ import {
 
 import {
     isEmpty
-} from "utils/helperFunctions";
+} from "utils/helperFunctions.js";
 
 import Transition from './Transition';
 
