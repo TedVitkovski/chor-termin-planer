@@ -40,8 +40,8 @@ class Render extends Component {
             const tempMonth  = tempMonthFirstStep.slice(2, 4);
             const tempYear   = date.slice(4);
             const tempDay    = date.slice(0, 2);
-            const stringDate = `${tempDay}.${tempMonth}.${tempYear}`;
-            const tempId     = `${tempMonth}${index}${counter}`;
+            const stringDate = `${tempDay.toString()}.${tempMonth.toString()}.${tempYear.toString()}`;
+            const tempId     = `${tempMonth.toString()}${index.toString()}${counter.toString()}`;
             const checkArrId = tempId.slice(3, tempId.length);
             counter++;
             return this.renderVerticalPane(
